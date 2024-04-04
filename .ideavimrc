@@ -1,0 +1,46 @@
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+
+let g:highlightedyank_highlight_duration = 1500
+let mapleader = ' '
+
+""" 画面分割
+map <leader>sH <Action>(SplitHorizontally)
+map <leader>sV <Action>(SplitVertically)
+
+""" マウスホバー時の情報表示
+nmap gh <Action>(ShowHoverInfo)
+
+""" 変更に移動
+nmap [c <Action>(VcsShowPrevChangeMarker)
+nmap ]c <Action>(VcsShowNextChangeMarker)
+
+""" エラーに移動
+nmap [q <Action>(GotoPreviousError)
+nmap ]q <Action>(GotoNextError)
+
+""" 定義に移動
+nmap gr <Action>(GotoDeclaration)
+nmap gi <Action>(GotoImplementation)
+
+set scrolloff=5
+set showmode
+set clipboard+=unnamed
+set incsearch
+set visualbell
+set noerrorbells
+
+""" normalモードに入る際に英数入力に切り替える
+set keep-english-in-normal
+set nokeep-english-in-normal-and-restore-in-insert
+
+""" Plugins  --------------------------------
+set commentary
+set surround
+set multiple-cursors
+set highlightedyank
+
+""" Mappings --------------------------------
+map Q gq
+map <C-k> <A-n>
+
+inoremap <silent> jj <ESC>
