@@ -64,5 +64,10 @@ export PATH=${JAVA_HOME}/bin:${PATH}
 # ----------------------------
 export SBT_OPTS=-Xmx4096m
 
+# ----------------------------
+# Git
+# ----------------------------
+alias gbclean="git branch --merged | egrep -v '^\*|develop' | xargs git branch -d"
+
 eval "$(starship init zsh)"
 eval "$(mise activate zsh)"
