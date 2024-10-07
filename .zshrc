@@ -53,3 +53,6 @@ export XDG_CONFIG_HOME="$HOME/.config"
 
 # zsh-autosuggestionsを有効にする
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# miseを有効にする
+eval "$(~/.local/bin/mise activate zsh)"
