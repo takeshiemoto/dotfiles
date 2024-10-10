@@ -56,3 +56,6 @@ source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # miseを有効にする
 eval "$(~/.local/bin/mise activate zsh)"
+
+# Homebrewを有効にする
+eval "$(/opt/homebrew/bin/brew shellenv)"
