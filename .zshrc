@@ -59,3 +59,4 @@ eval "$(~/.local/bin/mise activate zsh)"
 
 # Homebrewを有効にする
 eval "$(/opt/homebrew/bin/brew shellenv)"
+
