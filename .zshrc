@@ -1,11 +1,6 @@
 # プロンプトを簡略化
 PROMPT='%c %# '
 
-# iteam起動時にtmuxを起動する
-if [[ ! -n $TMUX ]]; then
-  tmux new-session
-fi
-
 # 単語で移動
 bindkey '[C' forward-word
 bindkey '[D' backward-word
@@ -60,3 +55,7 @@ eval "$(~/.local/bin/mise activate zsh)"
 # Homebrewを有効にする
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
+# 起動時にtmuxを起動する
+if command -v tmux > /dev/null && [ -z "$TMUX" ]; then
+  tmux
+fi
