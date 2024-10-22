@@ -56,6 +56,6 @@ eval "$(~/.local/bin/mise activate zsh)"
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # 起動時にtmuxを起動する
-if command -v tmux > /dev/null && [ -z "$TMUX" ]; then
+if command -v tmux > /dev/null && [ -z "$TMUX" ] && [ "$TERMINAL_EMULATOR" != "JetBrains-JediTerm" ]; then
   tmux
 fi
