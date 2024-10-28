@@ -6,4 +6,5 @@ set number
 set expandtab
 " インデントの自動挿入
 set smartindent
-
+" クリップボードを共有する
+set clipboard+=unnamedplus
