@@ -14,3 +14,7 @@ done
 # ignoreを$HOME/.config/git/ディレクトリにシンボリックリンクで配置
 mkdir -p "$HOME/.config/git"
 ln -sf "$DOTFILES_DIR/ignore" "$HOME/.config/git/ignore"
+
+# init.vim
+mkdir -p "$HOME/.config/nvim"
+ln -sf "$DOTFILES_DIR/init.vim" "$HOME/.config/nvim/init.vim"
