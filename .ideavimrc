@@ -29,6 +29,9 @@ set incsearch
 set visualbell
 set noerrorbells
 
+""" ダイアログではideaVimを無効化
+set ideavimsupport=
+
 """ normalモードに入る際に英数入力に切り替える
 set keep-english-in-normal
 set nokeep-english-in-normal-and-restore-in-insert
