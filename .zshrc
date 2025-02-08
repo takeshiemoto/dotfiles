@@ -59,3 +59,5 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 if command -v tmux > /dev/null && [ -z "$TMUX" ] && [ "$TERMINAL_EMULATOR" != "JetBrains-JediTerm" ]; then
   tmux
 fi
+export PATH="$HOME/scripts:$PATH"
+export PATH="$HOME/scripts:$PATH"

@@ -47,3 +47,4 @@ map Q gq
 map <C-k> <A-n>
 
 inoremap <silent> jj <ESC>
+set ideajoin
