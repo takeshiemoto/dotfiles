@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e  # エラーで終了
+set -u  # 未定義変数でエラー
 
 # Get the directory where this script is located
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -7,10 +9,14 @@ DOTFILES_DIR="$(dirname "$SCRIPT_DIR")"
 echo "Starting dotfiles installation..."
 echo "Dotfiles directory: $DOTFILES_DIR"
 
-# Function to create symlink
+# create_symlink関数を改善
 create_symlink() {
     local source="$1"
     local target="$2"
+
+    # ターゲットのディレクトリが存在することを確認
+    local target_dir=$(dirname "$target")
+    mkdir -p "$target_dir"
 
     # Remove existing file/symlink if exists
     if [ -e "$target" ] || [ -L "$target" ]; then
@@ -48,15 +54,6 @@ create_symlink "$DOTFILES_DIR/.tmux.conf" "$HOME/.tmux.conf"
 
 # Neovim configuration
 create_symlink "$DOTFILES_DIR/init.vim" "$HOME/.config/nvim/init.vim"
-
-# VSCode settings (if default.json is for VSCode)
-if [ -f "$DOTFILES_DIR/default.json" ]; then
-    # macOS VSCode settings location
-    VSCODE_DIR="$HOME/Library/Application Support/Code/User"
-    if [ -d "$VSCODE_DIR" ]; then
-        create_symlink "$DOTFILES_DIR/default.json" "$VSCODE_DIR/settings.json"
-    fi
-fi
 
 # Install Homebrew if not installed
 if ! command -v brew &> /dev/null; then
@@ -118,4 +115,18 @@ else
     echo "iTerm2 preferences directory not found. Skipping iTerm2 configuration"
 fi
 
+# Source zshrc
+echo ""
+echo "Installation complete!"
 echo "Please restart your terminal or run: source ~/.zshrc"
+
+# Display what was installed
+echo ""
+echo "Installed configurations:"
+echo "✓ Zsh configuration"
+echo "✓ Git configuration (~/.config/git/ignore)"
+echo "✓ IdeaVim configuration"
+echo "✓ Tmux configuration"
+echo "✓ Neovim configuration"
+[ -f "$DOTFILES_DIR/Brewfile" ] && echo "✓ Homebrew packages"
+[ -d "$DOTFILES_DIR/iterm2" ] && echo "✓ iTerm2 preferences sync"
