@@ -24,7 +24,7 @@ Clone this repository and run the installation script:
 ```bash
 git clone https://github.com/takeshiemoto/dotfiles.git ~/projects/github.com/takeshiemoto/dotfiles
 cd ~/projects/github.com/takeshiemoto/dotfiles
-./install.sh
+./scripts/install.sh
 ```
 
 The script will:
@@ -44,7 +44,8 @@ The script will:
 │   └── settings.json # Claude configuration
 ├── ignore            # Global ignore patterns
 ├── init.vim          # Neovim configuration
-└── install.sh        # Installation script
+└── scripts/
+    └── install.sh    # Installation script
 ```
 
 ## Updating
@@ -54,5 +55,5 @@ To update your configuration:
 ```bash
 cd ~/projects/github.com/takeshiemoto/dotfiles
 git pull
-./install.sh
+./scripts/install.sh
 ```

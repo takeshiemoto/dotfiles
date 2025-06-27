@@ -55,6 +55,9 @@ create_symlink "$DOTFILES_DIR/.tmux.conf" "$HOME/.tmux.conf"
 # Neovim configuration
 create_symlink "$DOTFILES_DIR/init.vim" "$HOME/.config/nvim/init.vim"
 
+# Claude configuration
+create_symlink "$DOTFILES_DIR/claude" "$HOME/.claude"
+
 # Install Homebrew if not installed
 if ! command -v brew &> /dev/null; then
     echo ""
@@ -128,5 +131,6 @@ echo "✓ Git configuration (~/.config/git/ignore)"
 echo "✓ IdeaVim configuration"
 echo "✓ Tmux configuration"
 echo "✓ Neovim configuration"
+echo "✓ Claude configuration"
 [ -f "$DOTFILES_DIR/Brewfile" ] && echo "✓ Homebrew packages"
 [ -d "$DOTFILES_DIR/iterm2" ] && echo "✓ iTerm2 preferences sync"
