@@ -100,24 +100,6 @@ if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
-# iTerm2 configuration
-echo ""
-echo "Setting up iTerm2 preferences sync..."
-
-if [ -d "$DOTFILES_DIR/iterm2" ]; then
-    if [ -d "/Applications/iTerm.app" ]; then
-        defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$DOTFILES_DIR/iterm2"
-        defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
-
-        echo "iTerm2 configured to sync preferences with: $DOTFILES_DIR/iterm2/"
-        echo "NOTE: You may need to restart iTerm2 for changes to take effect"
-    else
-        echo "iTerm2 not installed. Skipping iTerm2 configuration"
-    fi
-else
-    echo "iTerm2 preferences directory not found. Skipping iTerm2 configuration"
-fi
-
 # Source zshrc
 echo ""
 echo "Installation complete!"
