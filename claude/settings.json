@@ -21,18 +21,7 @@
   "enabledPlugins": {
     "example-skills@anthropic-agent-skills": true,
     "pr-review-toolkit@claude-plugins-official": true,
-    "context7@claude-plugins-official": true,
-    "ralph-loop@claude-plugins-official": true,
-    "kbs-samba4@kubell-storage-plugins": true,
-    "kbs-basic@kubell-storage-plugins": true
-  },
-  "extraKnownMarketplaces": {
-    "kubell-storage-plugins": {
-      "source": {
-        "source": "github",
-        "repo": "chatwork-st/kubell-storage-claude-plugin"
-      }
-    }
+    "context7@claude-plugins-official": true
   },
   "alwaysThinkingEnabled": true,
   "skipDangerousModePermissionPrompt": true,
