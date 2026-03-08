@@ -1,5 +1,4 @@
-export EDITOR=vim
-export TERM=xterm-256color
+export EDITOR=nvim
 
 # ヒストリー設定
 HISTFILE=~/.zsh_history
@@ -36,14 +35,13 @@ function peco-history-selection() {
 zle -N peco-history-selection
 
 function peco-src() {
-  local cache_file="/tmp/ghq_cache_$$"
-  local cache_time=300  # 5分間キャッシュ
+  local cache_file="/tmp/ghq_cache"
 
-  if [[ ! -f $cache_file ]] || [[ $(find $cache_file -mmin +5 2>/dev/null) ]]; then
-    ghq list -p > $cache_file
+  if [[ ! -f $cache_file ]] || [[ $(find "$cache_file" -mmin +5 2>/dev/null) ]]; then
+    ghq list -p > "$cache_file"
   fi
 
-  local selected_dir=$(cat $cache_file | peco --query "$LBUFFER")
+  local selected_dir=$(peco --query "$LBUFFER" < "$cache_file")
   if [ -n "$selected_dir" ]; then
     BUFFER="cd ${selected_dir}"
     zle accept-line
@@ -63,25 +61,24 @@ function ghp() {
 # lazygitの設定ファイルの場所を変更する
 export XDG_CONFIG_HOME="$HOME/.config"
 
+# Homebrewの警告を無効にする
+export HOMEBREW_NO_ENV_HINTS=1
+
 # Homebrewを有効にする
-# brewのパスを最初に一度だけ設定
 if [[ -x /opt/homebrew/bin/brew ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
+
+  # zsh-abbr
+  source "$(brew --prefix)/share/zsh-abbr/zsh-abbr.zsh"
+
+  # zsh-autosuggestionsを有効にする
+  source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 fi
-
-# zsh-abbr
-source $(brew --prefix)/share/zsh-abbr/zsh-abbr.zsh
-
-# zsh-autosuggestionsを有効にする
-source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # miseを有効にする
 if command -v mise &>/dev/null; then
   eval "$(mise activate zsh)"
 fi
-
-# Homebrewの警告を無効にする
-export HOMEBREW_NO_ENV_HINTS=1
 
 # WezTerm shell integration: OSC 7 (current directory tracking)
 __wezterm_osc7() {
