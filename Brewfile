@@ -1,0 +1,8 @@
+brew "ghq"
+brew "peco"
+brew "lazygit"
+brew "neovim"
+brew "zsh-abbr"
+brew "zsh-autosuggestions"
+brew "gh"
+brew "mise"
