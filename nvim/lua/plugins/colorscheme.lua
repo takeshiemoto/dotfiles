@@ -2,7 +2,7 @@ return {
   { "LazyVim/LazyVim", opts = { colorscheme = "vague" } },
   {
     "cocopon/iceberg.vim",
-    lazy = false,
+    lazy = true,
     priority = 1000,
     init = function()
       vim.api.nvim_create_autocmd("ColorScheme", {
@@ -16,7 +16,7 @@ return {
   },
   {
     "sainnhe/gruvbox-material",
-    lazy = false,
+    lazy = true,
     priority = 1000,
     init = function()
       vim.g.gruvbox_material_background = "hard"
@@ -26,7 +26,7 @@ return {
   },
   {
     "shaunsingh/nord.nvim",
-    lazy = false,
+    lazy = true,
     priority = 1000,
     init = function()
       vim.g.nord_disable_background = true
@@ -34,7 +34,7 @@ return {
   },
   {
     "ellisonleao/gruvbox.nvim",
-    lazy = false,
+    lazy = true,
     priority = 1000,
     opts = {
       transparent_mode = true,
@@ -42,7 +42,7 @@ return {
   },
   {
     "w0ng/vim-hybrid",
-    lazy = false,
+    lazy = true,
     priority = 1000,
     init = function()
       vim.api.nvim_create_autocmd("ColorScheme", {
@@ -56,7 +56,7 @@ return {
   },
   {
     "nanotech/jellybeans.vim",
-    lazy = false,
+    lazy = true,
     priority = 1000,
     init = function()
       vim.api.nvim_create_autocmd("ColorScheme", {
