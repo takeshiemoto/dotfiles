@@ -11,8 +11,12 @@ link() {
   echo "  $dst -> $src"
 }
 
+echo "=== Cleanup ==="
+[ -L "$HOME/.zprofile" ] && [ ! -e "$HOME/.zprofile" ] && rm "$HOME/.zprofile" && echo "  Removed broken symlink: ~/.zprofile"
+
 echo "=== Zsh ==="
 link "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc"
+link "$DOTFILES_DIR/zsh/.zshenv" "$HOME/.zshenv"
 
 echo "=== WezTerm ==="
 link "$DOTFILES_DIR/wezterm/wezterm.lua" "$HOME/.config/wezterm/wezterm.lua"
@@ -39,6 +43,9 @@ link "$DOTFILES_DIR/agents" "$HOME/.agents"
 echo "=== Codex ==="
 mkdir -p "$HOME/.codex"
 link "$DOTFILES_DIR/codex/AGENTS.md" "$HOME/.codex/AGENTS.md"
+
+echo "=== zsh-abbr ==="
+link "$DOTFILES_DIR/zsh-abbr/user-abbreviations" "$HOME/.config/zsh-abbr/user-abbreviations"
 
 echo ""
 echo "Done."
