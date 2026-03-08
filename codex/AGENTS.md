@@ -1,4 +1,4 @@
-# AGNET.md
+# AGENTS.md
 
 ## 基本情報
 
