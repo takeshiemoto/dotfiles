@@ -10,6 +10,7 @@
 4. Run `bash install.sh` to create symlinks
 5. Set up SSH keys for GitHub
 6. Install WezTerm from the official site
+7. Install a Nerd Font (for Neovim/LazyVim icons)
 
 ### What `install.sh` does
 
