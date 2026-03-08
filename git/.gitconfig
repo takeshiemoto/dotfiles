@@ -3,8 +3,8 @@
 [user]
 	name = takeshiemoto
 	email = private.takeshiemoto@gmail.com
-[credential]
-	helper = store
+[credential "https://github.com"]
+	helper = !/opt/homebrew/bin/gh auth git-credential
 [init]
 	defaultBranch = main
 [core]
