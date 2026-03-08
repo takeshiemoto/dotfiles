@@ -36,8 +36,7 @@ function peco-history-selection() {
 zle -N peco-history-selection
 
 function peco-src() {
-  local cache_file="/tmp/ghq_cache_$$"
-  local cache_time=300  # 5分間キャッシュ
+  local cache_file="/tmp/ghq_cache_${USER}"
 
   if [[ ! -f $cache_file ]] || [[ $(find $cache_file -mmin +5 2>/dev/null) ]]; then
     ghq list -p > $cache_file
@@ -69,11 +68,10 @@ if [[ -x /opt/homebrew/bin/brew ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-# zsh-abbr
-source $(brew --prefix)/share/zsh-abbr/zsh-abbr.zsh
-
-# zsh-autosuggestionsを有効にする
-source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+# zsh-abbr / zsh-autosuggestions
+local brew_prefix="$(brew --prefix)"
+source "$brew_prefix/share/zsh-abbr/zsh-abbr.zsh"
+source "$brew_prefix/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
 # miseを有効にする
 if command -v mise &>/dev/null; then
