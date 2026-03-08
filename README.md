@@ -8,9 +8,8 @@
 2. Clone this repo to `~/ghq/github.com/takeshiemoto/dotfiles`
 3. Run `brew bundle` to install dependencies
 4. Run `bash install.sh` to create symlinks
-5. Set up SSH keys for GitHub
+5. Run `gh auth login` to authenticate with GitHub
 6. Install WezTerm from the official site
-7. Install a Nerd Font (for Neovim/LazyVim icons)
 
 ### What `install.sh` does
 

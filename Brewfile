@@ -6,3 +6,6 @@ brew "zsh-abbr"
 brew "zsh-autosuggestions"
 brew "gh"
 brew "mise"
+
+cask "font-jetbrains-mono"
+cask "font-udev-gothic-nf"
