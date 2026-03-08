@@ -7,5 +7,6 @@ brew "zsh-autosuggestions"
 brew "gh"
 brew "mise"
 
+cask "wezterm"
 cask "font-jetbrains-mono"
 cask "font-udev-gothic-nf"
