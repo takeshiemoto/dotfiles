@@ -18,6 +18,7 @@ link() {
 
 echo "=== Cleanup ==="
 [ -L "$HOME/.zprofile" ] && [ ! -e "$HOME/.zprofile" ] && rm "$HOME/.zprofile" && echo "  Removed broken symlink: ~/.zprofile"
+[ -L "$HOME/.config/wezterm/lua" ] && rm "$HOME/.config/wezterm/lua" && echo "  Removed stale symlink: ~/.config/wezterm/lua"
 
 echo "=== Zsh ==="
 link "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc"
