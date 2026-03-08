@@ -1,8 +1,10 @@
+tap "olets/tap"
+
 brew "ghq"
 brew "peco"
 brew "lazygit"
 brew "neovim"
-brew "zsh-abbr"
+brew "olets/tap/zsh-abbr@6"
 brew "zsh-autosuggestions"
 brew "gh"
 brew "mise"
