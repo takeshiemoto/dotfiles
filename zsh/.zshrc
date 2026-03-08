@@ -69,7 +69,7 @@ if [[ -x /opt/homebrew/bin/brew ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 
   # zsh-abbr
-  source "$(brew --prefix)/share/zsh-abbr/zsh-abbr.zsh"
+  source "$(brew --prefix)/share/zsh-abbr@6/zsh-abbr.zsh"
 
   # zsh-autosuggestionsを有効にする
   source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
