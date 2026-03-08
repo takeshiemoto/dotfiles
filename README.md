@@ -9,7 +9,6 @@
 3. Run `brew bundle` to install dependencies
 4. Run `bash install.sh` to create symlinks
 5. Run `gh auth login` to authenticate with GitHub
-6. Install WezTerm from the official site
 
 ### What `install.sh` does
 
