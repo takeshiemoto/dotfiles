@@ -94,3 +94,4 @@ fpath=(/Users/takeshiemoto/.docker/completions $fpath)
 autoload -Uz compinit
 compinit
 # End of Docker CLI completions
+export PATH="$HOME/.local/bin:$PATH"
