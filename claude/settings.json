@@ -21,18 +21,7 @@
   "enabledPlugins": {
     "example-skills@anthropic-agent-skills": true,
     "pr-review-toolkit@claude-plugins-official": true,
-    "context7@claude-plugins-official": true,
-    "ralph-loop@claude-plugins-official": true,
-    "REDACTED-REDACTED@REDACTED-storage-plugins": true,
-    "REDACTED-basic@REDACTED-storage-plugins": true
-  },
-  "extraKnownMarketplaces": {
-    "REDACTED-storage-plugins": {
-      "source": {
-        "source": "github",
-        "repo": "REDACTED-st/REDACTED-storage-claude-plugin"
-      }
-    }
+    "context7@claude-plugins-official": true
   },
   "alwaysThinkingEnabled": true,
   "skipDangerousModePermissionPrompt": true,
