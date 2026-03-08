@@ -1,0 +1,55 @@
+{
+  "env": {
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000",
+    "MAX_MCP_OUTPUT_TOKENS": "25000",
+    "DISABLE_COST_WARNINGS": "1",
+    "BASH_DEFAULT_TIMEOUT_MS": "600000",
+    "BASH_MAX_TIMEOUT_MS": "600000",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "ENABLE_TOOL_SEARCH": "true"
+  },
+  "permissions": {
+    "deny": [],
+    "ask": [
+      "Bash(git push*)",
+      "Bash(rm *)",
+      "Bash(git add*)",
+      "Bash(git commit*)"
+    ],
+    "defaultMode": "plan"
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // empty' | while read -r f; do [ -n \"$f\" ] && [[ \"$f\" == /Users/takeshiemoto/vault/*.md ]] && markdownlint-cli2 --fix \"$f\" 2>&1; done; exit 0",
+            "timeout": 30,
+            "statusMessage": "Markdown lint チェック中..."
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "example-skills@anthropic-agent-skills": true,
+    "pr-review-toolkit@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "ralph-loop@claude-plugins-official": true,
+    "kbs-samba4@kubell-storage-plugins": true,
+    "kbs-basic@kubell-storage-plugins": true
+  },
+  "extraKnownMarketplaces": {
+    "kubell-storage-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "chatwork-st/kubell-storage-claude-plugin"
+      }
+    }
+  },
+  "alwaysThinkingEnabled": true,
+  "skipDangerousModePermissionPrompt": true,
+  "effortLevel": "high"
+}
