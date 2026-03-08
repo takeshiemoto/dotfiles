@@ -25,8 +25,7 @@ setopt no_beep
 setopt no_flow_control
 setopt ignore_eof
 
-# zsh-abbr
-source $(brew --prefix)/share/zsh-abbr/zsh-abbr.zsh
+# zsh-abbr（Homebrew初期化後に読み込み）
 
 # peco
 function peco-history-selection() {
@@ -69,6 +68,9 @@ export XDG_CONFIG_HOME="$HOME/.config"
 if [[ -x /opt/homebrew/bin/brew ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
+
+# zsh-abbr
+source $(brew --prefix)/share/zsh-abbr/zsh-abbr.zsh
 
 # zsh-autosuggestionsを有効にする
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
