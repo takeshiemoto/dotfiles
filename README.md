@@ -1,26 +1,30 @@
 # dotfiles
 
-Personal configuration files managed with symlinks.
-
-## Contents
-
-| Directory | Description | Target |
-|-----------|-------------|--------|
-| `zsh/` | Zsh configuration | `~/.zshrc` |
-| `wezterm/` | WezTerm terminal config | `~/.config/wezterm/` |
-| `nvim/` | Neovim (LazyVim) config | `~/.config/nvim/` |
-| `lazygit/` | Lazygit config | `~/.config/lazygit/config.yml` |
-| `claude/` | Claude Code settings | `~/.claude/` |
-| `codex/` | Codex agent instructions | `~/.codex/AGENTS.md` |
-
 ## Setup
 
-```bash
-git clone ssh://git@github.com/takeshiemoto/dotfiles.git ~/projects/github.com/takeshiemoto/dotfiles
-cd ~/projects/github.com/takeshiemoto/dotfiles
-./install.sh
-```
+### Manual
 
-## What `install.sh` does
+1. Install Homebrew
+2. Clone this repo to `~/ghq/github.com/takeshiemoto/dotfiles`
+3. Run `brew bundle` to install dependencies
+4. Run `bash install.sh` to create symlinks
+5. Set up SSH keys for GitHub
+6. Install WezTerm from the official site
 
-Creates symbolic links from each config file to its expected location. Existing files at the target paths are replaced.
+### What `install.sh` does
+
+| Source | Target |
+|--------|--------|
+| `zsh/.zshrc`, `zsh/.zshenv` | `~/` |
+| `git/.gitconfig` | `~/` |
+| `wezterm/` | `~/.config/wezterm/` |
+| `nvim/` | `~/.config/nvim/` |
+| `lazygit/config.yml` | `~/.config/lazygit/` |
+| `claude/` | `~/.claude/` |
+| `codex/AGENTS.md` | `~/.codex/` |
+| `agents/` | `~/.agents` |
+| `zsh-abbr/user-abbreviations` | `~/.config/zsh-abbr/` |
+
+### What `Brewfile` manages
+
+ghq, peco, lazygit, neovim, zsh-abbr, zsh-autosuggestions, gh, mise
