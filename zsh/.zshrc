@@ -76,8 +76,9 @@ source $(brew --prefix)/share/zsh-abbr/zsh-abbr.zsh
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # miseを有効にする
-# miseが必要な時だけ読み込み
-[[ -x ~/.local/bin/mise ]] && eval "$(~/.local/bin/mise activate zsh)"
+if command -v mise &>/dev/null; then
+  eval "$(mise activate zsh)"
+fi
 
 # Homebrewの警告を無効にする
 export HOMEBREW_NO_ENV_HINTS=1
