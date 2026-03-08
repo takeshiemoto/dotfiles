@@ -6,7 +6,12 @@ DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 link() {
   local src="$1" dst="$2"
   mkdir -p "$(dirname "$dst")"
-  [ -e "$dst" ] || [ -L "$dst" ] && rm -rf "$dst"
+  if [ -L "$dst" ]; then
+    rm "$dst"
+  elif [ -e "$dst" ]; then
+    echo "  WARNING: $dst exists and is not a symlink, skipping"
+    return
+  fi
   ln -sf "$src" "$dst"
   echo "  $dst -> $src"
 }
@@ -20,7 +25,6 @@ link "$DOTFILES_DIR/zsh/.zshenv" "$HOME/.zshenv"
 
 echo "=== WezTerm ==="
 link "$DOTFILES_DIR/wezterm/wezterm.lua" "$HOME/.config/wezterm/wezterm.lua"
-link "$DOTFILES_DIR/wezterm/lua" "$HOME/.config/wezterm/lua"
 
 echo "=== Neovim (LazyVim) ==="
 link "$DOTFILES_DIR/nvim/init.lua" "$HOME/.config/nvim/init.lua"
