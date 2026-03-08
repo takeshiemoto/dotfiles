@@ -89,9 +89,5 @@ __wezterm_osc7() {
 }
 chpwd_functions=(${chpwd_functions[@]} "__wezterm_osc7")
 __wezterm_osc7
-# The following lines have been added by Docker Desktop to enable Docker CLI completions.
-fpath=(/Users/takeshiemoto/.docker/completions $fpath)
-autoload -Uz compinit
-compinit
-# End of Docker CLI completions
+
 export PATH="$HOME/.local/bin:$PATH"
