@@ -88,3 +88,7 @@ chpwd_functions=(${chpwd_functions[@]} "__wezterm_osc7")
 __wezterm_osc7
 
 export PATH="$HOME/.local/bin:$PATH"
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/takeshiemoto/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
