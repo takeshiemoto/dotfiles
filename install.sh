@@ -50,6 +50,7 @@ link "$DOTFILES_DIR/codex/AGENTS.md" "$HOME/.codex/AGENTS.md"
 
 echo "=== Git ==="
 link "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
+link "$DOTFILES_DIR/git/ignore" "$HOME/.config/git/ignore"
 
 echo "=== zsh-abbr ==="
 link "$DOTFILES_DIR/zsh-abbr/user-abbreviations" "$HOME/.config/zsh-abbr/user-abbreviations"

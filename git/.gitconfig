@@ -9,3 +9,5 @@
 	defaultBranch = main
 [core]
 	autocrlf = input
+[coderabbit]
+	machineId = cli/48e0b57f0c2744439e98134669d66c29
