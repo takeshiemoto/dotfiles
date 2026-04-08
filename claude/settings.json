@@ -8,7 +8,7 @@
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
     "ENABLE_TOOL_SEARCH": "true",
     "CLAUDE_CODE_NO_FLICKER": "1",
-    "CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING": "1"
+    "CLAUDE_CODE_EFFORT_LEVEL": "max"
   },
   "permissions": {
     "deny": [],
@@ -20,6 +20,8 @@
     ],
     "defaultMode": "plan"
   },
+  "model": "opus",
+  "showThinkingSummaries": true,
   "statusLine": {
     "type": "command",
     "command": "bunx -y ccstatusline@latest",
