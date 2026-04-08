@@ -6,7 +6,9 @@
     "BASH_DEFAULT_TIMEOUT_MS": "600000",
     "BASH_MAX_TIMEOUT_MS": "600000",
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
-    "ENABLE_TOOL_SEARCH": "true"
+    "ENABLE_TOOL_SEARCH": "true",
+    "CLAUDE_CODE_NO_FLICKER": "1",
+    "CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING": "1"
   },
   "permissions": {
     "deny": [],
@@ -18,14 +20,46 @@
     ],
     "defaultMode": "plan"
   },
+  "statusLine": {
+    "type": "command",
+    "command": "bunx -y ccstatusline@latest",
+    "padding": 0
+  },
   "enabledPlugins": {
     "example-skills@anthropic-agent-skills": true,
     "pr-review-toolkit@claude-plugins-official": true,
     "context7@claude-plugins-official": true,
     "figma@claude-plugins-official": true,
-    "coderabbit@claude-plugins-official": true
+    "coderabbit@claude-plugins-official": true,
+    "kbs-samba4@kubell-storage-plugins": true,
+    "kbs-basic@kubell-storage-plugins": true,
+    "feature-dev@claude-plugins-official": true,
+    "codex@openai-codex": true,
+    "takeshiemoto@takeshiemoto-marketplace": true
+  },
+  "extraKnownMarketplaces": {
+    "kubell-storage-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "chatwork-st/kubell-storage-claude-plugin"
+      }
+    },
+    "openai-codex": {
+      "source": {
+        "source": "github",
+        "repo": "openai/codex-plugin-cc"
+      }
+    },
+    "takeshiemoto-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "takeshiemoto/claude-code-my-marketplace"
+      },
+      "autoUpdate": true
+    }
   },
   "alwaysThinkingEnabled": true,
   "effortLevel": "high",
-  "skipDangerousModePermissionPrompt": true
+  "skipDangerousModePermissionPrompt": true,
+  "skipAutoPermissionPrompt": true
 }

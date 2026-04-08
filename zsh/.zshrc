@@ -89,6 +89,9 @@ __wezterm_osc7
 
 export PATH="$HOME/.local/bin:$PATH"
 
+# bun completions
+[ -s "/Users/takeshiemoto/.bun/_bun" ] && source "/Users/takeshiemoto/.bun/_bun"
+
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
 export PATH="/Users/takeshiemoto/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
