@@ -47,6 +47,7 @@ link "$DOTFILES_DIR/agents" "$HOME/.agents"
 echo "=== Codex ==="
 mkdir -p "$HOME/.codex"
 link "$DOTFILES_DIR/codex/AGENTS.md" "$HOME/.codex/AGENTS.md"
+link "$DOTFILES_DIR/codex/config.toml" "$HOME/.codex/config.toml"
 
 echo "=== Git ==="
 link "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
