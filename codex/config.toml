@@ -9,9 +9,5 @@ trust_level = "trusted"
 [projects."/Users/takeshiemoto/ghq/github.com/chatwork-st/samba4-aws-tools"]
 trust_level = "trusted"
 
-[mcp_servers.serena]
-command = "uvx"
-args = ["--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server", "--context=claude-code", "--project-from-cwd"]
-
 [mcp_servers.notion]
 url = "https://mcp.notion.com/mcp"
