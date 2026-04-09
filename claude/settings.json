@@ -6,18 +6,14 @@
   "permissions": {
     "deny": [],
     "ask": [
-      "Bash(git push*)",
+      "Bash(git push *)",
       "Bash(rm *)",
-      "Bash(git add*)",
-      "Bash(git commit*)"
+      "Bash(git add *)",
+      "Bash(git commit *)"
     ],
     "defaultMode": "plan"
   },
-  "language": "japanese",
-  "model": "opus",
-  "outputStyle": "Explanatory",
-  "showThinkingSummaries": true,
-  "skipDangerousModePermissionPrompt": true,
+  "model": "claude-opus-4-6",
   "statusLine": {
     "type": "command",
     "command": "bunx -y ccstatusline@latest",
@@ -55,5 +51,9 @@
       },
       "autoUpdate": true
     }
-  }
+  },
+  "outputStyle": "Explanatory",
+  "language": "japanese",
+  "showThinkingSummaries": true,
+  "skipDangerousModePermissionPrompt": true
 }
