@@ -1,4 +1,5 @@
 abbr "cl"="claude"
+abbr "claude"="claude --enable-auto-mode"
 abbr "cx"="codex"
 abbr "lg"="lazygit"
 abbr "vi"="nvim"

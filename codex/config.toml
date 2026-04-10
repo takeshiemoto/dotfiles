@@ -22,9 +22,16 @@ url = "https://mcp.notion.com/mcp"
 [mcp_servers.figma]
 url = "https://mcp.figma.com/mcp"
 
+[mcp_servers.context7]
+command = "npx"
+args = ["-y", "@upstash/context7-mcp"]
+
 [mcp_servers.chrome-devtools]
 command = "npx"
 args = ["chrome-devtools-mcp@latest"]
 
 [plugins."github@openai-curated"]
 enabled = true
+
+[tui]
+status_line = ["model-with-reasoning", "context-remaining", "context-used", "five-hour-limit", "weekly-limit"]
