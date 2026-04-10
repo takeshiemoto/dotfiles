@@ -1,11 +1,15 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "env": {
-    "CLAUDE_CODE_EFFORT_LEVEL": "max",
-    "MAX_MCP_OUTPUT_TOKENS": "25000"
+    "CLAUDE_CODE_EFFORT_LEVEL": "max"
   },
   "permissions": {
     "deny": [],
+    "allow": [
+      "mcp__plugin_context7_context7",
+      "mcp__plugin_kbs-samba4_chrome-devtools",
+      "Bash(gh api *)"
+    ],
     "ask": [
       "Bash(git push *)",
       "Bash(rm *)",
