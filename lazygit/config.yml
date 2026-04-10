@@ -13,27 +13,27 @@ gui:
   shortTimeFormat: '3:04PM'
   theme:
     activeBorderColor:
-      - green
+      - '#a9b665'
       - bold
     inactiveBorderColor:
-      - white
+      - '#7c6f64'
     searchingActiveBorderColor:
-      - cyan
+      - '#89b482'
       - bold
     optionsTextColor:
-      - blue
+      - '#7daea3'
     selectedLineBgColor:
-      - blue # set to `default` to have no background colour
+      - '#3c3836'
     selectedRangeBgColor:
-      - blue
+      - '#3c3836'
     cherryPickedCommitBgColor:
-      - cyan
+      - '#89b482'
     cherryPickedCommitFgColor:
-      - blue
+      - '#1d2021'
     unstagedChangesColor:
-      - red
+      - '#ea6962'
     defaultFgColor:
-      - default
+      - '#d4be98'
   commitLength:
     show: true
   mouseEvents: true
