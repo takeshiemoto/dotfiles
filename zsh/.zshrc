@@ -12,9 +12,7 @@ autoload -U compinit && compinit -C
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' menu select
 
-# プロンプト
-PROMPT='%F{cyan}%1~%f %# '
-RPROMPT='%F{241}%*%f'
+PROMPT='%1~ %% '
 
 # 単語で移動
 bindkey '[C' forward-word
