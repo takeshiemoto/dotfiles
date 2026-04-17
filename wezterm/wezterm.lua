@@ -1,6 +1,5 @@
 local wezterm = require("wezterm")
 local config = wezterm.config_builder()
-config.color_scheme = "iceberg-dark"
 config.font = wezterm.font_with_fallback({
 	"JetBrains Mono",
 	"UDEV Gothic NF",
@@ -11,8 +10,9 @@ config.enable_tab_bar = true
 config.use_fancy_tab_bar = true
 config.tab_bar_at_bottom = false
 config.window_decorations = "RESIZE"
-config.window_background_opacity = 0.97
-config.macos_window_background_blur = 40
+config.window_background_opacity = 0.95
+config.macos_window_background_blur = 5
+config.color_scheme = "Tokyo Night"
 
 config.inactive_pane_hsb = {
 	saturation = 0.5,
