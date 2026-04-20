@@ -17,6 +17,7 @@ macOS 環境の設定ファイルを一元管理するリポジトリ。
 | `nvim/` | `~/.config/nvim/` | Neovim (LazyVim) |
 | `lazygit/` | `~/.config/lazygit/` | Lazygit 設定 |
 | `claude/` | `~/.claude/` | Claude Code ユーザースコープ設定 |
+| `claude/skills/` | `~/.claude/skills/` | Claude Code ユーザースコープ skill |
 | `codex/` | `~/.codex/` | Codex ユーザースコープ設定 |
 | `agents/` | `~/.agents` | エージェント用 skills |
 | `zsh-abbr/` | `~/.config/zsh-abbr/` | zsh-abbr 略語定義 |
