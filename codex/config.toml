@@ -1,5 +1,5 @@
 model = "gpt-5.4"
-model_reasoning_effort = "medium"
+model_reasoning_effort = "high"
 service_tier = "fast"
 [projects."/Users/takeshiemoto"]
 trust_level = "trusted"
@@ -14,6 +14,9 @@ trust_level = "trusted"
 trust_level = "trusted"
 
 [projects."/Users/takeshiemoto/ghq/github.com/takeshiemoto/dotfiles"]
+trust_level = "trusted"
+
+[projects."/Users/takeshiemoto/ghq/github.com/chatwork-st/kubell-storage-claude-plugin"]
 trust_level = "trusted"
 
 [mcp_servers.notion]
