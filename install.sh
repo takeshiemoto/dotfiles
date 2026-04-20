@@ -40,6 +40,7 @@ echo "=== Claude Code ==="
 link "$DOTFILES_DIR/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 link "$DOTFILES_DIR/claude/settings.json" "$HOME/.claude/settings.json"
 link "$DOTFILES_DIR/claude/keybindings.json" "$HOME/.claude/keybindings.json"
+link "$DOTFILES_DIR/claude/skills/empirical-prompt-tuning" "$HOME/.claude/skills/empirical-prompt-tuning"
 
 echo "=== Agents ==="
 link "$DOTFILES_DIR/agents" "$HOME/.agents"
