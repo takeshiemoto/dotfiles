@@ -10,15 +10,10 @@
       "Edit",
       "Write",
       "NotebookEdit",
-      "mcp__plugin_context7_context7",
-      "mcp__plugin_kbs-samba4_chrome-devtools"
+      "mcp__plugin_context7_context7"
     ],
     "deny": [
-      "Bash(npx *)",
-      "Bash(pup investigations trigger *)",
-      "Bash(pup acp serve *)",
-      "Bash(pup idp assist *)",
-      "Bash(pup llm-obs *)"
+      "Bash(npx *)"
     ],
     "ask": [
       "Bash(git push *)"
@@ -31,24 +26,17 @@
     "padding": 0
   },
   "enabledPlugins": {
-    "example-skills@anthropic-agent-skills": true,
     "pr-review-toolkit@claude-plugins-official": true,
     "context7@claude-plugins-official": true,
     "figma@claude-plugins-official": true,
     "coderabbit@claude-plugins-official": true,
-    "kbs-samba4@kubell-storage-plugins": true,
-    "kbs-basic@kubell-storage-plugins": true,
     "codex@openai-codex": true,
-    "takeshiemoto@takeshiemoto-marketplace": true,
-    "pup@datadog-pup": true
+    "claude-code-setup@claude-plugins-official": true,
+    "core@takeshiemoto-marketplace": true,
+    "ralph-loop@claude-plugins-official": true,
+    "miro@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
-    "kubell-storage-plugins": {
-      "source": {
-        "source": "github",
-        "repo": "chatwork-st/kubell-storage-claude-plugin"
-      }
-    },
     "openai-codex": {
       "source": {
         "source": "github",
@@ -59,19 +47,13 @@
       "source": {
         "source": "github",
         "repo": "takeshiemoto/claude-code-my-marketplace"
-      },
-      "autoUpdate": true
-    },
-    "datadog-pup": {
-      "source": {
-        "source": "github",
-        "repo": "datadog-labs/pup"
-      },
-      "autoUpdate": true
+      }
     }
   },
   "language": "japanese",
+  "effortLevel": "xhigh",
   "showThinkingSummaries": true,
   "skipDangerousModePermissionPrompt": true,
-  "skipAutoPermissionPrompt": true
+  "skipAutoPermissionPrompt": true,
+  "agentPushNotifEnabled": true
 }

@@ -1,5 +1,6 @@
 tap "olets/tap"
 
+brew "chezmoi"
 brew "ghq"
 brew "peco"
 brew "lazygit"

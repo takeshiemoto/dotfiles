@@ -10,8 +10,8 @@ config.enable_tab_bar = true
 config.use_fancy_tab_bar = true
 config.tab_bar_at_bottom = false
 config.window_decorations = "RESIZE"
-config.window_background_opacity = 0.95
-config.macos_window_background_blur = 5
+config.window_background_opacity = 0.97
+config.macos_window_background_blur = 40
 config.color_scheme = "Tokyo Night"
 
 config.inactive_pane_hsb = {
@@ -38,5 +38,9 @@ config.keys = {
 	{ key = "n", mods = "LEADER", action = wezterm.action.ActivateTabRelative(1) },
 	{ key = "p", mods = "LEADER", action = wezterm.action.ActivateTabRelative(-1) },
 }
+
+wezterm.on("bell", function(window, pane)
+	window:toast_notification("Claude Code", "Task completed", nil, 4000)
+end)
 
 return config

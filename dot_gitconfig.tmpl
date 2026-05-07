@@ -1,13 +1,13 @@
 [ghq]
 	root = ~/ghq
 [user]
-	name = takeshiemoto
-	email = private.takeshiemoto@gmail.com
+	name = {{ .name }}
+	email = {{ .email }}
 [credential "https://github.com"]
 	helper = !/opt/homebrew/bin/gh auth git-credential
 [init]
 	defaultBranch = main
 [core]
 	autocrlf = input
-[coderabbit]
-	machineId = cli/48e0b57f0c2744439e98134669d66c29
+[include]
+	path = ~/.gitconfig.local
