@@ -1,0 +1,15 @@
+model = "gpt-5.5"
+model_reasoning_effort = "medium"
+service_tier = "fast"
+[projects."{{ .chezmoi.homeDir }}"]
+trust_level = "trusted"
+
+[mcp_servers.context7]
+command = "npx"
+args = ["-y", "@upstash/context7-mcp"]
+
+[plugins."github@openai-curated"]
+enabled = true
+
+[tui]
+status_line = ["model-with-reasoning", "context-remaining", "context-used", "five-hour-limit", "weekly-limit"]

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -eu
+
+BREWFILE="{{ .chezmoi.sourceDir }}/Brewfile"
+
+if [ ! -f "$BREWFILE" ]; then
+  echo "[chezmoi] Brewfile not found at $BREWFILE, skipping"
+  exit 0
+fi
+
+echo "[chezmoi] Running brew bundle..."
+brew bundle --file="$BREWFILE"
