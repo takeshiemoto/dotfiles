@@ -6,17 +6,18 @@ config.font = wezterm.font_with_fallback({
 })
 config.harfbuzz_features = { "calt=0", "clig=0", "liga=0" }
 config.font_size = 12.0
+config.line_height = 1.0
 config.enable_tab_bar = true
 config.use_fancy_tab_bar = true
 config.tab_bar_at_bottom = false
 config.window_decorations = "RESIZE"
-config.window_background_opacity = 0.97
+config.window_background_opacity = 0.94
 config.macos_window_background_blur = 40
 config.color_scheme = "Tokyo Night"
 
 config.inactive_pane_hsb = {
 	saturation = 0.5,
-	brightness = 0.4,
+	brightness = 0.6,
 }
 
 config.leader = { key = "q", mods = "CTRL", timeout_milliseconds = 1000 }

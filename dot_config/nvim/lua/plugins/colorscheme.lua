@@ -6,6 +6,9 @@ return {
     priority = 1000,
     opts = {
       transparent = true,
+      variants = {
+        modus_vivendi = "default",
+      },
     },
   },
 }
