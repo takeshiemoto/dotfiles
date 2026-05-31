@@ -18,7 +18,6 @@ chezmoi apply
 | `dot_zshrc`, `dot_zshenv` | `~/.zshrc`, `~/.zshenv` |
 | `dot_gitconfig.tmpl` | `~/.gitconfig` (includes `~/.gitconfig.local`) |
 | `dot_config/` | `~/.config/` — wezterm, nvim, lazygit, zsh-abbr, git |
-| `dot_claude/` | `~/.claude/` |
 | `dot_codex/` | `~/.codex/` |
 
 ## Local overrides
@@ -26,7 +25,6 @@ chezmoi apply
 | File | For |
 |---|---|
 | `~/.gitconfig.local` | work email, machine-specific git config |
-| `~/.claude/settings.local.json` | work plugins, machine-specific Claude Code settings |
 | `~/.codex/config.toml` | tool-managed (trust prompts); deliberately not tracked |
 
 ## Bootstrap

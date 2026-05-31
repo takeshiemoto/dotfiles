@@ -40,8 +40,4 @@ config.keys = {
 	{ key = "p", mods = "LEADER", action = wezterm.action.ActivateTabRelative(-1) },
 }
 
-wezterm.on("bell", function(window, pane)
-	window:toast_notification("Claude Code", "Task completed", nil, 4000)
-end)
-
 return config

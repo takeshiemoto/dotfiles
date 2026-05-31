@@ -28,7 +28,6 @@ chezmoi の命名規約に従い、`dot_` 接頭辞をつけたファイル/デ�
 | `dot_config/lazygit/` | `~/.config/lazygit/` | Lazygit |
 | `dot_config/git/ignore` | `~/.config/git/ignore` | グローバル gitignore |
 | `dot_config/zsh-abbr/` | `~/.config/zsh-abbr/` | zsh-abbr 略語定義 |
-| `dot_claude/` | `~/.claude/` | Claude Code ユーザースコープ設定 |
 | `dot_codex/` | `~/.codex/` | Codex ユーザースコープ設定 |
 
 bootstrap スクリプト:
@@ -45,7 +44,6 @@ dotfiles で管理するのは「全案件で共通利用できるもの」の�
 | ツール | 仕事/マシン固有設定の置き場 |
 |---|---|
 | git | `~/.gitconfig.local`（dotfiles で管理せず、各マシンに直接置く） |
-| Claude Code | `~/.claude/settings.local.json`（gitignore 済み。仕事用プラグイン等はここ） |
 | Codex | `~/.codex/config.toml`（chezmoi 適用後にツールが追記する trust 設定はそのまま放置） |
 
 ## 変更時の注意
@@ -53,7 +51,7 @@ dotfiles で管理するのは「全案件で共通利用できるもの」の�
 - 設定ファイルの追加・移動時は chezmoi 命名規約に従う（`dot_*`、`*.tmpl`）
 - 仕事識別子（`REDACTED`, `REDACTED-st`, `REDACTED-` 等）や machineId 系の値は絶対に dotfiles に commit しない
 - `Brewfile` はツール追加時に追記する
-- このリポジトリ固有の指示は `CLAUDE.md` / `AGENTS.md` に書く（chezmoiignore 済み）
+- このリポジトリ固有の指示は `AGENTS.md` に書く（chezmoiignore 済み）
 
 ## セットアップ
 
