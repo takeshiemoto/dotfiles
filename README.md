@@ -13,6 +13,34 @@ chezmoi init https://github.com/takeshiemoto/dotfiles.git
 chezmoi apply
 ```
 
+## Layout
+
+| Source | Destination |
+|---|---|
+| `dot_zshrc`, `dot_zshenv` | `~/.zshrc`, `~/.zshenv` |
+| `dot_gitconfig.tmpl` | `~/.gitconfig` (includes `~/.gitconfig.local`) |
+| `dot_config/` | `~/.config/` — wezterm, nvim, lazygit, zsh-abbr, git |
+| `dot_codex/` | `~/.codex/` |
+| `dot_claude/` | `~/.claude/` — settings.json, user-scope skills |
+
+## Local overrides
+
+| File | For |
+|---|---|
+| `~/.gitconfig.local` | work email, machine-specific git config |
+| `~/.codex/config.toml` | tool-managed (trust prompts); deliberately not tracked |
+
+## Claude Code
+
+User-scope Claude config (`~/.claude/`) is managed here. Track new files as you create them:
+
+```bash
+chezmoi add ~/.claude/settings.json          # settings
+chezmoi add ~/.claude/skills/<name>          # a user-scope skill
+```
+
+Only config is tracked — sessions, cache, history, and auth state stay untracked.
+
 ## Bootstrap
 
 - `run_once_before_install-brew.sh` — installs Homebrew if absent
