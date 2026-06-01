@@ -2,5 +2,8 @@
   "theme": "auto",
   "permissions": {
     "defaultMode": "auto"
+  },
+  "enabledPlugins": {
+    "coderabbit@claude-plugins-official": true
   }
 }
