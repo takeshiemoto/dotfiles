@@ -1,0 +1,59 @@
+#!/bin/bash
+# chezmoi modify_ script for ~/.codex/config.toml
+#
+# Codex CLI rewrites this file at runtime, appending machine-specific state
+# (per-project `trust_level` entries and the `[tui.model_availability_nux]`
+# counter). A plain template would fight those writes and produce a permanent
+# diff, so we enforce the managed settings here and pass the runtime state
+# through verbatim, placed so the result matches Codex's own ordering and the
+# diff stays empty. The current file arrives on stdin; our stdout is the target.
+set -euo pipefail
+
+current="$(cat)"
+home="{{ .chezmoi.homeDir }}"
+
+# extract_sections <stdin> <awk-condition-on-$0>: print each `[...]` block whose
+# header line satisfies the condition, including its body up to the next header.
+extract_sections() {
+  awk -v home="$home" "
+  function flush() { if (keep && block != \"\") printf \"%s\", block }
+  BEGIN { keep=0; block=\"\" }
+  /^\\[/ { flush(); block=\$0 \"\\n\"; keep=($1); next }
+  { if (keep) block=block \$0 \"\\n\" }
+  END { flush() }
+  "
+}
+
+# 1. Managed scalars + the home-dir trust entry.
+cat <<EOF
+model = "gpt-5.5"
+model_reasoning_effort = "medium"
+service_tier = "fast"
+[projects."${home}"]
+trust_level = "trusted"
+
+EOF
+
+# 2. Preserved: extra [projects."..."] trust entries (all but the managed home).
+printf '%s\n' "$current" | extract_sections \
+  '$0 ~ /^\[projects\./ && $0 != "[projects.\"" home "\"]"'
+
+# 3. Managed: MCP servers, plugins, TUI.
+cat <<EOF
+[mcp_servers.context7]
+command = "npx"
+args = ["-y", "@upstash/context7-mcp"]
+
+[plugins."github@openai-curated"]
+enabled = true
+
+[tui]
+status_line = ["model-with-reasoning", "context-remaining", "context-used", "five-hour-limit", "weekly-limit"]
+EOF
+
+# 4. Preserved: the TUI new-feature notice counter Codex maintains. Codex keeps
+# a blank line before it, so emit one too — but only when the section exists.
+nux="$(printf '%s\n' "$current" | extract_sections '$0 == "[tui.model_availability_nux]"')"
+if [ -n "$nux" ]; then
+  printf '\n%s\n' "$nux"
+fi
