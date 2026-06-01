@@ -1,5 +1,7 @@
 # dotfiles
 
+<img width="2816" height="1536" alt="Gemini_Generated_Image_t3zn2pt3zn2pt3zn" src="https://github.com/user-attachments/assets/4e7240e1-ea61-470c-a34e-5f0bf4491b55" />
+
 macOS dotfiles managed with [chezmoi](https://www.chezmoi.io/).
 Universal config only — machine- and project-specific values stay in gitignored local overrides.
 
@@ -10,22 +12,6 @@ brew install chezmoi
 chezmoi init https://github.com/takeshiemoto/dotfiles.git
 chezmoi apply
 ```
-
-## Layout
-
-| Source | Destination |
-|---|---|
-| `dot_zshrc`, `dot_zshenv` | `~/.zshrc`, `~/.zshenv` |
-| `dot_gitconfig.tmpl` | `~/.gitconfig` (includes `~/.gitconfig.local`) |
-| `dot_config/` | `~/.config/` — wezterm, nvim, lazygit, zsh-abbr, git |
-| `dot_codex/` | `~/.codex/` |
-
-## Local overrides
-
-| File | For |
-|---|---|
-| `~/.gitconfig.local` | work email, machine-specific git config |
-| `~/.codex/config.toml` | tool-managed (trust prompts); deliberately not tracked |
 
 ## Bootstrap
 
