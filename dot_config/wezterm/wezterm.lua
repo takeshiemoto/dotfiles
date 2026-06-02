@@ -1,5 +1,11 @@
 local wezterm = require("wezterm")
 local config = wezterm.config_builder()
+
+-- 初回起動時にウィンドウを最大化する
+wezterm.on("gui-startup", function(cmd)
+	local _, _, window = wezterm.mux.spawn_window(cmd or {})
+	window:gui_window():maximize()
+end)
 config.font = wezterm.font_with_fallback({
 	"JetBrains Mono",
 	"UDEV Gothic NF",
