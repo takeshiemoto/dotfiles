@@ -5,6 +5,23 @@
   },
   "enabledPlugins": {
     "coderabbit@claude-plugins-official": true,
-    "frontend-design@claude-plugins-official": true
+    "frontend-design@claude-plugins-official": true,
+    "figma@claude-plugins-official": true,
+    "chrome-devtools-mcp@chrome-devtools-plugins": true,
+    "codex@openai-codex": true
+  },
+  "extraKnownMarketplaces": {
+    "chrome-devtools-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "ChromeDevTools/chrome-devtools-mcp"
+      }
+    },
+    "openai-codex": {
+      "source": {
+        "source": "github",
+        "repo": "openai/codex-plugin-cc"
+      }
+    }
   }
 }
