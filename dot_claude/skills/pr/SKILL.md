@@ -22,7 +22,7 @@ description: >-
 4. **テンプレート探索**（後述）：見つからなければ停止。
 5. **本文・タイトル生成**（後述）：文体は常体。
 6. **push**：上記の停止条件を全通過してから `git push -u origin HEAD`。push を最後に置くのは、中断する PR のブランチ公開を避けるため。拒否されたら **force せず**理由を報告して停止。
-7. **PR 作成/更新**：既存 PR があれば本文更新（後述）、なければ `gh pr create --base <base> --head <current> --draft --title "<title>" --body-file <tmp>`。本文はエスケープ事故回避のため一時ファイル経由。
+7. **PR 作成/更新**：既存 PR があれば本文更新（後述）、なければ `gh pr create --base <base> --head <current> --draft --assignee takeshiemoto --title "<title>" --body-file <tmp>`。assignee は常に `takeshiemoto` 固定。本文はエスケープ事故回避のため一時ファイル経由。
 8. **報告**：PR の URL・ベース・draft を1行で。
 
 ## ベースブランチ
