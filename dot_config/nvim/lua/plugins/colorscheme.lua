@@ -1,14 +1,11 @@
 return {
-  { "LazyVim/LazyVim", opts = { colorscheme = "modus_vivendi" } },
+  { "LazyVim/LazyVim", opts = { colorscheme = "vague" } },
   {
-    "miikanissi/modus-themes.nvim",
+    "vague2k/vague.nvim",
     lazy = false,
     priority = 1000,
-    opts = {
-      transparent = true,
-      variants = {
-        modus_vivendi = "default",
-      },
-    },
+    config = function()
+      require("vague").setup({})
+    end,
   },
 }
