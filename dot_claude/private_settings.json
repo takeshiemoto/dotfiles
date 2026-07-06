@@ -1,14 +1,20 @@
 {
-  "theme": "auto",
   "permissions": {
     "defaultMode": "auto"
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bunx -y ccstatusline@latest",
+    "padding": 0,
+    "refreshInterval": 10
   },
   "enabledPlugins": {
     "coderabbit@claude-plugins-official": true,
     "frontend-design@claude-plugins-official": true,
     "figma@claude-plugins-official": true,
     "chrome-devtools-mcp@chrome-devtools-plugins": true,
-    "codex@openai-codex": true
+    "codex@openai-codex": true,
+    "example-skills@anthropic-agent-skills": true
   },
   "extraKnownMarketplaces": {
     "chrome-devtools-plugins": {
@@ -22,6 +28,17 @@
         "source": "github",
         "repo": "openai/codex-plugin-cc"
       }
+    },
+    "anthropic-agent-skills": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/anthropics/skills.git"
+      }
     }
-  }
+  },
+  "effortLevel": "xhigh",
+  "skipWorkflowUsageWarning": true,
+  "theme": "auto",
+  "agentPushNotifEnabled": true,
+  "model": "claude-fable-5[1m]"
 }

@@ -1,5 +1,6 @@
 .serena/
 .loop/
 .coderabbit-loop/
+.idea/
 
 **/.claude/settings.local.json

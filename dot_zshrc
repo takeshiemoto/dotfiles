@@ -1,5 +1,10 @@
 export EDITOR=nvim
 
+# Homebrew（fpath を compinit より先に通す）
+if [[ -x /opt/homebrew/bin/brew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 # ヒストリー設定
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
@@ -14,15 +19,15 @@ zstyle ':completion:*' menu select
 
 PROMPT='%1~ %% '
 
-# 単語で移動
-bindkey '[C' forward-word
-bindkey '[D' backward-word
+# 単語で移動（Option/Ctrl + ←→）
+bindkey '^[[1;3C' forward-word
+bindkey '^[[1;3D' backward-word
+bindkey '^[[1;5C' forward-word
+bindkey '^[[1;5D' backward-word
 
 setopt no_beep
 setopt no_flow_control
 setopt ignore_eof
-
-# zsh-abbr（Homebrew初期化後に読み込み）
 
 # peco
 function peco-history-selection() {
@@ -62,15 +67,10 @@ export XDG_CONFIG_HOME="$HOME/.config"
 # Homebrewの警告を無効にする
 export HOMEBREW_NO_ENV_HINTS=1
 
-# Homebrewを有効にする
-if [[ -x /opt/homebrew/bin/brew ]]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-
-  # zsh-abbr
-  source "$(brew --prefix)/share/zsh-abbr@6/zsh-abbr.zsh"
-
-  # zsh-autosuggestionsを有効にする
-  source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+# zsh-abbr / zsh-autosuggestions
+if [[ -n "$HOMEBREW_PREFIX" ]]; then
+  source "$HOMEBREW_PREFIX/share/zsh-abbr@6/zsh-abbr.zsh"
+  source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 fi
 
 # miseを有効にする
@@ -88,8 +88,8 @@ __wezterm_osc7
 export PATH="$HOME/.local/bin:$PATH"
 
 # bun completions
-[ -s "/Users/takeshiemoto/.bun/_bun" ] && source "/Users/takeshiemoto/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/takeshiemoto/.rd/bin:$PATH"
+export PATH="$HOME/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)

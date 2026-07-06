@@ -1,59 +1,58 @@
 #!/bin/bash
 # chezmoi modify_ script for ~/.codex/config.toml
 #
-# Codex CLI rewrites this file at runtime, appending machine-specific state
-# (per-project `trust_level` entries and the `[tui.model_availability_nux]`
-# counter). A plain template would fight those writes and produce a permanent
-# diff, so we enforce the managed settings here and pass the runtime state
-# through verbatim, placed so the result matches Codex's own ordering and the
-# diff stays empty. The current file arrives on stdin; our stdout is the target.
+# Codex rewrites this file at runtime (trust entries, plugins, marketplaces,
+# desktop state, …) and the set of things it writes grows with each release.
+# So we enforce only the managed keys/sections below and pass everything else
+# through verbatim — Codex's own writes must never produce a permanent diff.
+# The current file arrives on stdin; our stdout is the target.
 set -euo pipefail
 
-current="$(cat)"
 home="{{ .chezmoi.homeDir }}"
+current="$(cat)"
 
-# extract_sections <stdin> <awk-condition-on-$0>: print each `[...]` block whose
-# header line satisfies the condition, including its body up to the next header.
-extract_sections() {
-  awk -v home="$home" "
-  function flush() { if (keep && block != \"\") printf \"%s\", block }
-  BEGIN { keep=0; block=\"\" }
-  /^\\[/ { flush(); block=\$0 \"\\n\"; keep=($1); next }
-  { if (keep) block=block \$0 \"\\n\" }
-  END { flush() }
-  "
+out="$(printf '%s\n' "$current" | awk -v home="$home" '
+function managed_body(h) {
+  if (h == "[projects.\"" home "\"]") return "trust_level = \"trusted\""
+  if (h == "[mcp_servers.context7]") return "command = \"npx\"\nargs = [\"-y\", \"@upstash/context7-mcp\"]"
+  if (h == "[plugins.\"github@openai-curated\"]") return "enabled = true"
+  if (h == "[tui]") return "status_line = [\"model-with-reasoning\", \"context-remaining\", \"context-used\", \"five-hour-limit\", \"weekly-limit\"]"
+  return ""
 }
+BEGIN {
+  print "model = \"gpt-5.5\""
+  print "model_reasoning_effort = \"medium\""
+  managed_top["model"] = 1
+  managed_top["model_reasoning_effort"] = 1
+  n = split("[projects.\"" home "\"]\n[mcp_servers.context7]\n[plugins.\"github@openai-curated\"]\n[tui]", headers, "\n")
+  in_top = 1
+  skip = 0
+}
+/^\[/ {
+  in_top = 0
+  if (managed_body($0) != "") {
+    if (!seen[$0]) { print $0; print managed_body($0); print ""; seen[$0] = 1 }
+    skip = 1
+    next
+  }
+  skip = 0
+  print
+  next
+}
+{
+  if (in_top) {
+    key = $0
+    sub(/[ \t]*=.*/, "", key)
+    if (key in managed_top) next
+    print
+    next
+  }
+  if (!skip) print
+}
+END {
+  for (i = 1; i <= n; i++)
+    if (!seen[headers[i]]) { print ""; print headers[i]; print managed_body(headers[i]) }
+}
+')"
 
-# 1. Managed scalars + the home-dir trust entry.
-cat <<EOF
-model = "gpt-5.5"
-model_reasoning_effort = "medium"
-service_tier = "fast"
-[projects."${home}"]
-trust_level = "trusted"
-
-EOF
-
-# 2. Preserved: extra [projects."..."] trust entries (all but the managed home).
-printf '%s\n' "$current" | extract_sections \
-  '$0 ~ /^\[projects\./ && $0 != "[projects.\"" home "\"]"'
-
-# 3. Managed: MCP servers, plugins, TUI.
-cat <<EOF
-[mcp_servers.context7]
-command = "npx"
-args = ["-y", "@upstash/context7-mcp"]
-
-[plugins."github@openai-curated"]
-enabled = true
-
-[tui]
-status_line = ["model-with-reasoning", "context-remaining", "context-used", "five-hour-limit", "weekly-limit"]
-EOF
-
-# 4. Preserved: the TUI new-feature notice counter Codex maintains. Codex keeps
-# a blank line before it, so emit one too — but only when the section exists.
-nux="$(printf '%s\n' "$current" | extract_sections '$0 == "[tui.model_availability_nux]"')"
-if [ -n "$nux" ]; then
-  printf '\n%s\n' "$nux"
-fi
+printf '%s\n' "$out"

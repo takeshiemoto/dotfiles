@@ -28,6 +28,12 @@ chezmoi の命名規約に従い、`dot_` 接頭辞をつけたファイル/デ�
 | `dot_config/lazygit/` | `~/.config/lazygit/` | Lazygit |
 | `dot_config/git/ignore` | `~/.config/git/ignore` | グローバル gitignore |
 | `dot_config/zsh-abbr/` | `~/.config/zsh-abbr/` | zsh-abbr 略語定義 |
+| `dot_config/herdr/` | `~/.config/herdr/` | herdr |
+| `dot_config/private_homebrew/` | `~/.config/homebrew/` | brew の tap 信頼リスト（trust.json） |
+| `dot_config/private_karabiner/` | `~/.config/karabiner/` | Karabiner-Elements |
+| `dot_config/mise/` | `~/.config/mise/` | mise グローバル設定 |
+| `dot_config/ccstatusline/` | `~/.config/ccstatusline/` | ccstatusline（Claude Code ステータスライン） |
+| `dot_claude/` | `~/.claude/` | Claude Code ユーザースコープ設定（settings.json・rules・skills） |
 | `dot_codex/` | `~/.codex/` | Codex ユーザースコープ設定 |
 
 bootstrap スクリプト:
@@ -35,7 +41,7 @@ bootstrap スクリプト:
 | ファイル | 実行タイミング | 用途 |
 |---|---|---|
 | `run_once_before_install-brew.sh` | apply 前に1回 | Homebrew をインストール |
-| `run_once_after_brew-bundle.sh.tmpl` | apply 後に1回 | `brew bundle` を実行 |
+| `run_onchange_after_brew-bundle.sh.tmpl` | Brewfile 変更時（apply 後） | `brew bundle --no-upgrade` で不足分をインストール |
 
 ## マシン固有設定の分離
 
@@ -44,12 +50,12 @@ dotfiles で管理するのは「全案件で共通利用できるもの」の�
 | ツール | 仕事/マシン固有設定の置き場 |
 |---|---|
 | git | `~/.gitconfig.local`（dotfiles で管理せず、各マシンに直接置く） |
-| Codex | `~/.codex/config.toml`（chezmoi 適用後にツールが追記する trust 設定はそのまま放置） |
+| Codex | `~/.codex/config.toml` は modify_ スクリプト管理。管理対象のキー（model 等）だけを強制し、Codex が実行時に追記する設定はそのまま通す |
 
 ## 変更時の注意
 
 - 設定ファイルの追加・移動時は chezmoi 命名規約に従う（`dot_*`、`*.tmpl`）
-- 仕事識別子（`REDACTED`, `REDACTED-st`, `REDACTED-` 等）や machineId 系の値は絶対に dotfiles に commit しない
+- 仕事識別子（勤務先・案件・社内ツールを特定できる名称やプレフィックス）や machineId 系の値は絶対に dotfiles に commit しない。ルール文中にも実名を書かない
 - `Brewfile` はツール追加時に追記する
 - このリポジトリ固有の指示は `AGENTS.md` に書く（chezmoiignore 済み）
 

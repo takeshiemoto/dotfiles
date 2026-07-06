@@ -19,16 +19,15 @@ chezmoi apply
 |---|---|
 | `dot_zshrc`, `dot_zshenv` | `~/.zshrc`, `~/.zshenv` |
 | `dot_gitconfig.tmpl` | `~/.gitconfig` (includes `~/.gitconfig.local`) |
-| `dot_config/` | `~/.config/` — wezterm, nvim, lazygit, zsh-abbr, git |
-| `dot_codex/` | `~/.codex/` |
-| `dot_claude/` | `~/.claude/` — settings.json, user-scope skills |
+| `dot_config/` | `~/.config/` — wezterm, nvim, lazygit, zsh-abbr, git, herdr, karabiner, mise, ccstatusline, homebrew (tap trust) |
+| `dot_codex/` | `~/.codex/` — AGENTS.md; config.toml via a modify_ script (managed keys enforced, Codex runtime additions pass through) |
+| `dot_claude/` | `~/.claude/` — settings.json, rules, user-scope skills |
 
 ## Local overrides
 
 | File | For |
 |---|---|
 | `~/.gitconfig.local` | work email, machine-specific git config |
-| `~/.codex/config.toml` | tool-managed (trust prompts); deliberately not tracked |
 
 ## Claude Code
 
@@ -44,4 +43,8 @@ Only config is tracked — sessions, cache, history, and auth state stay untrack
 ## Bootstrap
 
 - `run_once_before_install-brew.sh` — installs Homebrew if absent
-- `run_once_after_brew-bundle.sh.tmpl` — runs `brew bundle`
+- `run_onchange_after_brew-bundle.sh.tmpl` — runs `brew bundle --no-upgrade` whenever the Brewfile changes
+
+## Fonts
+
+WezTerm uses MonoLisa Trial, which is a manual install (EULA); UDEV Gothic NF from the Brewfile is the fallback, so a fresh machine works without it.
