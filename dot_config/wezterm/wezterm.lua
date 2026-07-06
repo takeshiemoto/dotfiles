@@ -12,7 +12,7 @@ config.font = wezterm.font_with_fallback({
 })
 config.harfbuzz_features = { "calt=0", "clig=0", "liga=0" }
 config.font_size = 12.0
-config.line_height = 1.2
+config.line_height = 1.1
 config.enable_tab_bar = true
 config.use_fancy_tab_bar = true
 config.tab_bar_at_bottom = false
