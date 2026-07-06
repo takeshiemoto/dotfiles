@@ -1,0 +1,29 @@
+[keys]
+prefix = "ctrl+a"
+
+focus_pane_left = ["prefix+h", "ctrl+alt+h"]
+focus_pane_down = ["prefix+j", "ctrl+alt+j"]
+focus_pane_up = ["prefix+k", "ctrl+alt+k"]
+focus_pane_right = ["prefix+l", "ctrl+alt+l"]
+
+goto = ["prefix+g", "ctrl+alt+g"]
+new_tab = ["prefix+c", "ctrl+alt+c"]
+split_vertical = ["prefix+v", "ctrl+alt+d"]
+zoom = ["prefix+z", "ctrl+alt+z"]
+last_pane = "prefix+tab"
+switch_workspace = "prefix+shift+1..9"
+
+[theme]
+name = "terminal"
+
+[ui]
+sidebar_width = 48
+sidebar_min_width = 24
+sidebar_max_width = 48
+agent_panel_sort = "priority"
+show_agent_labels_on_pane_borders = true
+mouse_capture = false
+
+[ui.toast]
+delivery = "terminal"
+delay_seconds = 1

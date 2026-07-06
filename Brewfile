@@ -9,6 +9,7 @@ brew "olets/tap/zsh-abbr@6"
 brew "zsh-autosuggestions"
 brew "gh"
 brew "mise"
+brew "herdr"
 
 cask "codex"
 cask "karabiner-elements"
