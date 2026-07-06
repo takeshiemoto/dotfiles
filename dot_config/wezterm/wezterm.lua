@@ -7,7 +7,7 @@ wezterm.on("gui-startup", function(cmd)
 	window:gui_window():maximize()
 end)
 config.font = wezterm.font_with_fallback({
-	"Moralerspace Neon",
+	"CommitMono",
 	"UDEV Gothic NF",
 })
 config.harfbuzz_features = { "calt=0", "clig=0", "liga=0" }
