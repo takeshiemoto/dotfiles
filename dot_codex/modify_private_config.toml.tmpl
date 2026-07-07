@@ -22,8 +22,12 @@ function managed_body(h) {
 BEGIN {
   print "model = \"gpt-5.5\""
   print "model_reasoning_effort = \"medium\""
+  print "approval_policy = \"never\""
+  print "sandbox_mode = \"workspace-write\""
   managed_top["model"] = 1
   managed_top["model_reasoning_effort"] = 1
+  managed_top["approval_policy"] = 1
+  managed_top["sandbox_mode"] = 1
   n = split("[projects.\"" home "\"]\n[mcp_servers.context7]\n[plugins.\"github@openai-curated\"]\n[tui]", headers, "\n")
   in_top = 1
   skip = 0
