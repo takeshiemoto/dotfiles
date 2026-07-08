@@ -7,7 +7,7 @@ wezterm.on("gui-startup", function(cmd)
 	window:gui_window():maximize()
 end)
 config.font = wezterm.font_with_fallback({
-	"MonoLisaCode Trial",
+	"JetBrains Mono",
 	"UDEV Gothic NF",
 })
 config.harfbuzz_features = { "calt=0", "clig=0", "liga=0" }
@@ -17,7 +17,7 @@ config.enable_tab_bar = true
 config.use_fancy_tab_bar = true
 config.tab_bar_at_bottom = false
 config.window_decorations = "RESIZE"
-config.window_background_opacity = 0.94
+config.window_background_opacity = 0.90
 config.macos_window_background_blur = 40
 config.color_scheme = "Tokyo Night"
 
