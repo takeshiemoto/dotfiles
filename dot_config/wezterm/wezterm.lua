@@ -17,8 +17,7 @@ config.enable_tab_bar = true
 config.use_fancy_tab_bar = true
 config.tab_bar_at_bottom = false
 config.window_decorations = "RESIZE"
-config.window_background_opacity = 0.90
-config.macos_window_background_blur = 40
+config.window_background_opacity = 1.0
 config.color_scheme = "Tokyo Night"
 
 config.inactive_pane_hsb = {
