@@ -17,18 +17,21 @@ function managed_body(h) {
   if (h == "[mcp_servers.context7]") return "command = \"npx\"\nargs = [\"-y\", \"@upstash/context7-mcp\"]"
   if (h == "[plugins.\"github@openai-curated\"]") return "enabled = true"
   if (h == "[tui]") return "status_line = [\"model-with-reasoning\", \"context-remaining\", \"context-used\", \"five-hour-limit\", \"weekly-limit\"]"
+  if (h == "[sandbox_workspace_write]") return "network_access = true"
   return ""
 }
 BEGIN {
-  print "model = \"gpt-5.5\""
+  print "model = \"gpt-5.6-terra\""
   print "model_reasoning_effort = \"medium\""
-  print "approval_policy = \"never\""
+  print "approval_policy = \"on-request\""
+  print "approvals_reviewer = \"auto_review\""
   print "sandbox_mode = \"workspace-write\""
   managed_top["model"] = 1
   managed_top["model_reasoning_effort"] = 1
   managed_top["approval_policy"] = 1
+  managed_top["approvals_reviewer"] = 1
   managed_top["sandbox_mode"] = 1
-  n = split("[projects.\"" home "\"]\n[mcp_servers.context7]\n[plugins.\"github@openai-curated\"]\n[tui]", headers, "\n")
+  n = split("[projects.\"" home "\"]\n[mcp_servers.context7]\n[plugins.\"github@openai-curated\"]\n[tui]\n[sandbox_workspace_write]", headers, "\n")
   in_top = 1
   skip = 0
 }
