@@ -8,3 +8,4 @@ vim.opt.autowrite = true
 vim.opt.autowriteall = true
 vim.opt.updatetime = 1000
 vim.opt.scrolloff = 8
+vim.opt.spelllang = { "en", "cjk" }
