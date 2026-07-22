@@ -24,17 +24,19 @@ description: >-
 
 ```bash
 gh pr view --json number,title,url,headRefName,state,isDraft
-```text
+```
 
 引数で PR 番号が渡された場合はそれを使う。無ければ現在ブランチの PR。リポジトリの `owner/repo` も `gh repo view --json nameWithOwner -q .nameWithOwner` で取得しておく。
 
 ### 2. インラインコメントの取得
 
-CodeRabbit の指摘はインラインのレビューコメントとして付く（login は `coderabbitai[bot]`）。レビュー本体（reviews）のサマリーではなく、必ず comments エンドポイントから取る。
+CodeRabbit の指摘はインラインのレビューコメントとして付く（login は `coderabbitai[bot]`）。レビュー本体（reviews）のサマリーではなく、必ず comments エンドポイントから取る。本スキルの対象はこのインラインコメントのみ。レビュー本文にのみ記載され comment_id を持たない指摘（diff 範囲外でインライン化されなかった「Outside diff range」等）はリプライ先が無いため対象外とする。
 
 ```bash
-gh api repos/<owner>/<repo>/pulls/<PR>/comments --paginate > /tmp/cr_inline.json
+gh api repos/<owner>/<repo>/pulls/<PR>/comments --paginate > <一時ファイル>
 ```
+
+一時ファイルは、実行環境がスクラッチパッド等の置き場所を指定していればそこに、無指定なら `/tmp` に置く。
 
 `coderabbitai[bot]` かつ `in_reply_to_id` が無い（=スレッドの起点）コメントだけを対象にする。各コメントから `id` / `path` / `line` / `body` を取り出す。`body` 冒頭の `_⚠️ Potential issue_ | _🟠 Major_` 等のラベルと、太字の見出しが指摘の要点。
 
@@ -42,7 +44,11 @@ gh api repos/<owner>/<repo>/pulls/<PR>/comments --paginate > /tmp/cr_inline.json
 
 ### 3. 各指摘を HEAD コードと照合
 
-コメントごとに、`path` のファイルを Read し、指摘が今も有効かを判断する。典型的な確認手段：
+「HEAD」は対象 PR 自身の最新コミットを指す。現在の作業ブランチがその PR のものであれば、通常通り `path` のファイルを Read すればよい。作業ブランチと一致しない場合（マージ済み PR・他ブランチの PR 番号指定など）は `git checkout` で切り替えない。作業ツリーの変更は、並行して進んでいる他の作業を壊しうる。代わりに対象 PR の最新コミット SHA（`gh pr view <PR> --json headRefOid` 等）を取得し、`git show <sha>:<path>` でファイル内容を直接参照する（`rg` 等で検索する場合も `git show <sha>:<path> | rg <pattern>` のように SHA 越しに行う）。
+
+対象コメントが 0 件の場合、本手順と手順 4 はスキップして手順 5 に進む。
+
+コメントごとに、指摘が今も有効かを判断する。典型的な確認手段：
 
 - 指摘された行・関数を読んで、現在の実装が指摘内容を満たしているか確認する。
 - 「ダミー定数/プレースホルダが残っている」系は `rg -n 'PLACEHOLDER_…|"#"'` で残存を確認。
@@ -63,18 +69,20 @@ gh api repos/<owner>/<repo>/pulls/<PR>/comments --paginate > /tmp/cr_inline.json
 
 ### 5. 分類 MD（YAML DSL）を生成
 
-エージェントが読む機械可読な YAML を fenced code block に入れた MD を作る。出力先はリポジトリ直下に `coderabbit-review-<ticket-or-pr>.md`。
+エージェントが読む機械可読な YAML を fenced code block に入れた MD を作る。MD ファイルの中身はその fenced YAML block 1 つのみで、見出し・タイトル行・説明文などの周辺プロローズは一切付けない。出力先はデスクトップ（`~/Desktop`）に `coderabbit-review-<PR番号>.md`（チケット ID はファイル名に使わず meta.ticket に記載する）。対象コメントが 0 件でも MD は生成し、`findings: []` とする。`meta.summary` は 0 件時も `{ total: 0, act: 0, defer: 0, reject: 0, resolved: 0 }` のように数値で埋める（自由記述は書かない）。0 件だった旨は MD の外、ユーザーへの報告で明記する。
 
-各 finding に最低限：`id` / `disposition` / `file` / `claim`（指摘要約）/ `current_state`（HEAD の実態）/ `evidence`（参照行や grep 結果）/ そして `disposition` に応じて `reply`・`action_plan`・`reject_reason`・`defer_reason`・`followup` を持たせる。テンプレートは `references/template.md` を参照。
+各 finding に最低限：`id` / `disposition` / `file` / `claim`（指摘要約）/ `current_state`（HEAD の実態）/ `evidence`（参照行や grep 結果）を持たせる。`reply` は `resolved` / `reject` / `defer` で必須（投稿する本文そのもの）、`act` では任意。加えて `reject` は `reject_reason`、`defer` は `defer_reason` と `followup`、`act` は `action_plan` を持たせる。テンプレートは `references/template.md` を参照。
 
 ### 6. 各インラインコメントにスレッドリプライを投稿
+
+ユーザーが MD 生成だけを求めた場合は本手順を実行せず手順 7 へ進む。
 
 必ず元のインラインコメントへの返信として投稿する。独立コメントや PR 全体コメントにはしない。スレッドに紐付くことで CodeRabbit 側がスレッドを解決できる。
 
 ```bash
 gh api -X POST "repos/<owner>/<repo>/pulls/<PR>/comments/<COMMENT_ID>/replies" \
   -f body="<リプライ本文>"
-```text
+```
 
 リプライ本文のルール（ユーザーのグローバル方針に準拠）：
 
@@ -88,7 +96,10 @@ gh api -X POST "repos/<owner>/<repo>/pulls/<PR>/comments/<COMMENT_ID>/replies" \
 
 ### 7. 報告
 
-投稿結果を finding、元コメント ID、リプライ ID、分類の順に箇条書きで一覧する。MD のパスも示す。
+MD のパスを示した上で、手順 6 を実行したかどうかで分ける。
+
+- 実行した場合：投稿結果を finding・元コメント ID・リプライ ID・分類の順に箇条書きで一覧する。
+- スキップした場合（対象コメント 0 件を含む）：finding 一覧（id・disposition・file）を箇条書きで示す。リプライ ID は存在しないため書かない。0 件なら「対象コメント 0 件」の旨のみ示す。
 
 ## 注意
 

@@ -3,3 +3,7 @@ skip_global_compinit=1
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+. "$HOME/.cargo/env"
+
+# mise (非インタラクティブシェルでも shims 経由でツールを使えるようにする)
+export PATH="$HOME/.local/share/mise/shims:$PATH"
