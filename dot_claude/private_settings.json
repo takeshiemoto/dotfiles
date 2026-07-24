@@ -8,7 +8,7 @@
     ],
     "defaultMode": "auto"
   },
-  "model": "opus[1m]",
+  "model": "claude-fable-5[1m]",
   "hooks": {
     "SessionStart": [
       {
@@ -30,14 +30,21 @@
     "refreshInterval": 10
   },
   "enabledPlugins": {
-    "coderabbit@claude-plugins-official": true,
-    "frontend-design@claude-plugins-official": true,
-    "figma@claude-plugins-official": true,
     "chrome-devtools-mcp@chrome-devtools-plugins": true,
+    "coderabbit@claude-plugins-official": true,
     "codex@openai-codex": true,
-    "example-skills@anthropic-agent-skills": true
+    "example-skills@anthropic-agent-skills": true,
+    "figma@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "samba4@samba4-testcases": true
   },
   "extraKnownMarketplaces": {
+    "anthropic-agent-skills": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/anthropics/skills.git"
+      }
+    },
     "chrome-devtools-plugins": {
       "source": {
         "source": "github",
@@ -50,16 +57,41 @@
         "repo": "openai/codex-plugin-cc"
       }
     },
-    "anthropic-agent-skills": {
+    "samba4-testcases": {
       "source": {
-        "source": "git",
-        "url": "https://github.com/anthropics/skills.git"
+        "source": "github",
+        "repo": "chatwork-st/samba4-testcases"
       }
     }
   },
-  "effortLevel": "xhigh",
-  "advisorModel": "fable",
+  "effortLevel": "medium",
   "skipWorkflowUsageWarning": true,
   "theme": "auto",
-  "agentPushNotifEnabled": true
+  "agentPushNotifEnabled": true,
+  "skillOverrides": {
+    "agent-install": "off",
+    "dd-audit": "off",
+    "dd-audit-ai-activity": "off",
+    "dd-audit-compliance-report": "off",
+    "dd-audit-cost-spike-investigation": "off",
+    "dd-audit-key-compromise": "off",
+    "dd-audit-security-investigation": "off",
+    "dd-browser-sdk": "off",
+    "dd-docs": "off",
+    "enable-ssi": "off",
+    "find-skills": "off",
+    "k9-ownership-byod-setup": "off",
+    "llm-obs-eval-bootstrap": "off",
+    "llm-obs-eval-pipeline": "off",
+    "llm-obs-experiment-analyzer": "off",
+    "llm-obs-session-classify": "off",
+    "llm-obs-trace-rca": "off",
+    "onboarding-summary": "off",
+    "service-remapping": "off",
+    "setup-matt-pocock-skills": "off",
+    "triage-flaky-test": "off",
+    "troubleshoot-ssi": "off",
+    "upgrade-browser-sdk-v7": "off",
+    "verify-ssi": "off"
+  }
 }
