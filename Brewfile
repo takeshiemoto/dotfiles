@@ -1,5 +1,4 @@
 tap "olets/tap"
-tap "modem-dev/tap"
 
 brew "chezmoi"
 brew "ghq"
@@ -13,8 +12,6 @@ brew "zsh-autosuggestions"
 brew "gh"
 brew "mise"
 brew "herdr"
-brew "fzf"
-brew "modem-dev/tap/hunk"
 
 cask "codex"
 cask "karabiner-elements"

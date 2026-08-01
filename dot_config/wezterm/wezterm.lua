@@ -39,6 +39,7 @@ config.keys = {
 	{ key = "l", mods = "LEADER", action = wezterm.action.ActivatePaneDirection("Right") },
 	{ key = "x", mods = "LEADER", action = wezterm.action.CloseCurrentPane({ confirm = true }) },
 	{ key = "Enter", mods = "SHIFT", action = wezterm.action.SendString("\x1b[13;2u") },
+	{ key = "Enter", mods = "SUPER", action = wezterm.action.SendString("\x1b[13;3u") },
 	{ key = "[", mods = "LEADER", action = wezterm.action.ActivateCopyMode },
 	{ key = "c", mods = "LEADER", action = wezterm.action.SpawnTab("CurrentPaneDomain") },
 	{ key = "n", mods = "LEADER", action = wezterm.action.ActivateTabRelative(1) },
