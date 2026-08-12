@@ -10,3 +10,4 @@ vim.opt.updatetime = 1000
 vim.opt.scrolloff = 8
 vim.opt.spelllang = { "en", "cjk" }
 vim.opt.conceallevel = 0
+vim.o.winborder = "rounded"
