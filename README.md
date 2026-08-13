@@ -108,6 +108,7 @@ chezmoi cd            # jump into the source repo
 - `run_once_before_install-brew.sh` installs Homebrew if absent
 - `run_onchange_after_brew-bundle.sh.tmpl` runs `brew bundle --no-upgrade` whenever the Brewfile changes
 - `run_onchange_after_mise-install.sh.tmpl` runs `mise install` whenever the mise config changes
+- `run_onchange_after_macos-defaults.sh` bakes macOS keyboard settings via `defaults write` — fastest key repeat, no press-and-hold accent popup, Caps Lock as Control on the built-in keyboard and HHKB; re-login to take effect
 
 ## Fonts
 
