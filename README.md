@@ -1,115 +1,111 @@
-<img width="2816" height="1536" alt="dotfiles hero" src="https://github.com/user-attachments/assets/4e7240e1-ea61-470c-a34e-5f0bf4491b55" />
+<!-- markdownlint-disable MD013 -->
 
 # dotfiles
 
-A blank Mac becomes a fully configured daily driver with one command. macOS dotfiles managed with [chezmoi](https://www.chezmoi.io/) — shell, terminal, editor, keyboard, and the AI agents that work alongside them.
+![dotfiles hero](https://github.com/user-attachments/assets/4e7240e1-ea61-470c-a34e-5f0bf4491b55)
 
-[![macOS](https://img.shields.io/badge/macOS-Apple%20Silicon-000000?logo=apple&logoColor=white&style=flat-square)](https://www.apple.com/macos/)
-[![chezmoi](https://img.shields.io/badge/managed%20with-chezmoi-1D89C8?style=flat-square)](https://www.chezmoi.io/)
-[![zsh](https://img.shields.io/badge/shell-zsh-F15A24?style=flat-square)](https://www.zsh.org/)
-[![Neovim](https://img.shields.io/badge/editor-LazyVim-57A143?logo=neovim&logoColor=white&style=flat-square)](https://www.lazyvim.org/)
-[![WezTerm](https://img.shields.io/badge/terminal-WezTerm-4E49EE?style=flat-square)](https://wezterm.org/)
+[chezmoi](https://www.chezmoi.io/) で管理する macOS 用 dotfiles。まっさらな Mac をコマンド 1 つで普段の開発環境に戻す。シェル、ターミナル、エディタ、キーボードに加えて、Claude Code や Codex といった AI エージェントの設定も同じ流儀で扱う。
 
-## Quick start
+[![macOS](https://img.shields.io/badge/macOS-Apple%20Silicon-000000?logo=apple&logoColor=white&style=flat-square)](https://www.apple.com/macos/) [![chezmoi](https://img.shields.io/badge/managed%20with-chezmoi-1D89C8?style=flat-square)](https://www.chezmoi.io/) [![zsh](https://img.shields.io/badge/shell-zsh-F15A24?style=flat-square)](https://www.zsh.org/) [![Neovim](https://img.shields.io/badge/editor-LazyVim-57A143?logo=neovim&logoColor=white&style=flat-square)](https://www.lazyvim.org/) [![WezTerm](https://img.shields.io/badge/terminal-WezTerm-4E49EE?style=flat-square)](https://wezterm.org/)
 
-On a blank Mac:
+## クイックスタート
+
+まっさらな Mac で実行する。
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/takeshiemoto/dotfiles/main/bootstrap.sh -o /tmp/bootstrap.sh && bash /tmp/bootstrap.sh
 ```
 
-One command caches sudo, installs chezmoi and Homebrew, writes every config into place, installs every tool in the Brewfile plus mise-managed runtimes, installs Claude Code, wires the herdr agent hooks, and signs into GitHub CLI. Already have chezmoi?
+この 1 コマンドで sudo をキャッシュし、chezmoi と Homebrew を導入し、全設定ファイルを配置し、Brewfile のツールと mise 管理のランタイムを入れ、Claude Code をインストールし、herdr のエージェント hook を配線し、GitHub CLI にログインする。chezmoi が既にあるマシンでは次で足りる。
 
 ```sh
 chezmoi init --apply takeshiemoto
 ```
 
-On a machine with an existing setup, preview first with `chezmoi diff`.
+既存環境に重ねる場合は、先に `chezmoi diff` で差分を確認する。
 
-## First boot checklist
+## 初回セットアップチェックリスト
 
-What bootstrap cannot do for you, in order:
+bootstrap が自動化できない手順。上から順に済ませる。
 
-1. Karabiner-Elements: allow the driver extension and input monitoring in System Settings
-2. Sign in: `claude` then `/login` (Claude Code then prompts to install the plugins and marketplaces listed in settings), `codex`, Slack, Rancher Desktop
-3. Restore external skills into `~/.agents/skills` — the tracked symlinks under `~/.claude/skills` point there:
+1. Karabiner-Elements: システム設定でドライバ拡張と入力監視を許可する
+2. サインイン: `claude` を起動して `/login` する（settings に列挙されたプラグインとマーケットプレイスのインストール確認が出る）。続けて `codex`、Slack、Rancher Desktop
+3. 外部スキルの復元: `~/.claude/skills` 配下の追跡済み symlink は `~/.agents/skills` を指しているため、実体を入れ直す
 
    ```sh
    npx -y skills add mattpocock/skills -g --skill grill-me --skill grill-with-docs -y
    npx -y skills add iKora128/stop-ai-slop-jp -g -y
    ```
 
-4. Git identity for this machine: put overrides in `~/.gitconfig.local`, or edit `[data]` in `~/.config/chezmoi/chezmoi.toml` and re-apply
-5. Langfuse (optional): agent tracing points at a self-hosted instance on `http://localhost:3000`; start it and set that project's public key in `pluginConfigs` in `~/.claude/settings.json` (a fresh instance generates new keys), or disable the `langfuse-observability` plugin
-6. ghq-managed source (optional): `ghq get takeshiemoto/dotfiles`, then set `sourceDir` at the top level of `~/.config/chezmoi/chezmoi.toml` — above the `[data]` section, or it silently becomes a data value — and confirm with `chezmoi source-path`:
+4. このマシン用の Git identity: `~/.gitconfig.local` に上書きを書くか、`~/.config/chezmoi/chezmoi.toml` の `[data]` を編集して再 apply する
+5. Langfuse（任意）: エージェントのトレースは `http://localhost:3000` のセルフホストインスタンスに向いている。起動した上で、そのプロジェクトの public key を `~/.claude/settings.json` の `pluginConfigs` に設定する（新規インスタンスはキーが変わる）。使わないなら `langfuse-observability` プラグインを無効にする
+6. ghq 配下での source 管理（任意）: `ghq get takeshiemoto/dotfiles` した後、`~/.config/chezmoi/chezmoi.toml` の最上位に `sourceDir` を置き、`chezmoi source-path` で確認する。`[data]` セクションより下に書くと data 値として扱われてしまう
 
    ```toml
    sourceDir = "/Users/<you>/ghq/github.com/takeshiemoto/dotfiles"
    ```
 
-## Design
+## 設計方針
 
-- Universal config only. Machine-specific and work-specific values live in gitignored local overrides, never in this repo.
-- Tools own their runtime state. Managed keys are enforced; whatever a tool writes at runtime passes through untouched, so `chezmoi apply` never fights an app.
-- Reproducible by construction. `brew bundle` re-runs whenever the Brewfile changes, `mise install` re-runs whenever its config changes, taps are pre-trusted, and fonts install from the Brewfile.
+- 汎用の設定だけを追跡する。マシン固有と職場固有の値は gitignore されたローカルオーバーライドに置き、このリポジトリには入れない
+- 実行時状態はツールに委ねる。管理対象のキーだけを強制し、ツールが実行時に書く内容はそのまま通す。`chezmoi apply` がアプリと喧嘩しない
+- 構成から再現する。Brewfile が変われば `brew bundle` が、mise 設定が変われば `mise install` が再実行される。tap は事前に信頼済みで、フォントも Brewfile から入る
 
-## What's inside
+## 構成
 
-| Source | Target | What |
-|---|---|---|
-| `dot_zshrc`, `dot_zshenv` | `~/.zshrc`, `~/.zshenv` | zsh with abbr, autosuggestions, peco history and ghq repo jumping |
-| `dot_config/wezterm/` | `~/.config/wezterm/` | WezTerm: vague palette, leader-key panes, JetBrains Mono with UDEV Gothic NF fallback |
-| `dot_config/nvim/` | `~/.config/nvim/` | Neovim (LazyVim): vague colorscheme, TypeScript, Go, Rust, PHP extras, JetBrains-style autosave |
-| `dot_config/lazygit/` | `~/.config/lazygit/` | lazygit |
-| `dot_config/private_karabiner/` | `~/.config/karabiner/` | Karabiner-Elements: Esc also sends Eisu for vim, lone Cmd keys switch IME |
-| `dot_config/zsh-abbr/` | `~/.config/zsh-abbr/` | shell abbreviations |
-| `dot_config/mise/` | `~/.config/mise/` | mise runtime manager |
-| `dot_config/herdr/` | `~/.config/herdr/` | herdr agent multiplexer |
-| `dot_config/private_homebrew/` | `~/.config/homebrew/` | tap trust list so `brew bundle` runs unattended |
-| `dot_config/git/ignore`, `dot_gitconfig.tmpl` | `~/.config/git/`, `~/.gitconfig` | git defaults, global ignore, `~/.gitconfig.local` include |
-| `dot_claude/` | `~/.claude/` | Claude Code: settings, rules, user-scope skills |
-| `dot_codex/` | `~/.codex/` | Codex: AGENTS.md and config via a modify script |
-| `dot_config/ccstatusline/` | `~/.config/ccstatusline/` | Claude Code status line |
+配置先は chezmoi の命名規則どおり。`dot_` は `~/.` に、`private_` はパーミッション 600 で置かれる。
 
-## AI agents as first-class dotfiles
+- `dot_zshrc`, `dot_zshenv`: zsh。abbr、autosuggestions、peco のヒストリ検索と ghq リポジトリジャンプ
+- `dot_config/wezterm/`: WezTerm。vague カラー、リーダーキーのペイン操作、JetBrains Mono と UDEV Gothic NF のフォールバック
+- `dot_config/nvim/`: Neovim (LazyVim)。vague カラースキーム、TypeScript と Go と Rust と PHP の extras、JetBrains 風の自動保存
+- `dot_config/lazygit/`: lazygit
+- `dot_config/private_karabiner/`: Karabiner-Elements。vim 用に Esc で英数も送出し、単押しの Cmd で IME を切り替える
+- `dot_config/zsh-abbr/`: シェルの略語定義
+- `dot_config/mise/`: mise によるランタイム管理
+- `dot_config/herdr/`: herdr エージェントマルチプレクサ
+- `dot_config/private_homebrew/`: tap の信頼リスト。`brew bundle` を無人で通すため
+- `dot_config/git/ignore`, `dot_gitconfig.tmpl`: git の既定値、グローバル ignore、`~/.gitconfig.local` の include
+- `dot_claude/`: Claude Code。settings、rules、ユーザースコープのスキル
+- `dot_codex/`: Codex。AGENTS.md と、modify スクリプト経由の config
+- `dot_config/ccstatusline/`: Claude Code のステータスライン
 
-Claude Code and Codex are configured here like any other tool. User-scope settings, rules, and hand-written skills (commit and PR workflows, chezmoi ops, plan grilling) are tracked; sessions, caches, and auth state are not. Track new files as you create them:
+## AI エージェントの設定管理
+
+Claude Code と Codex も他のツールと同じ dotfiles として扱う。ユーザースコープの settings と rules、自作スキル（commit や PR のワークフロー、chezmoi 操作、計画の grill）を追跡し、セッション、キャッシュ、認証状態は追跡しない。新しいファイルを作ったら都度取り込む。
 
 ```sh
 chezmoi add ~/.claude/settings.json
 chezmoi add ~/.claude/skills/<name>
 ```
 
-External skills installed with [skills.sh](https://skills.sh) live in `~/.agents/skills`; only the symlinks under `~/.claude/skills` are tracked here, so restore the targets on a new machine (see the checklist).
+[skills.sh](https://skills.sh) で入れた外部スキルの実体は `~/.agents/skills` にあり、このリポジトリは `~/.claude/skills` 配下の symlink だけを追跡する。新しいマシンではチェックリストの手順で実体を復元する。
 
-## Tool-rewritten configs
+## ツールが書き換える設定
 
-Codex rewrites `~/.codex/config.toml` at runtime, and what it writes grows with every release. A chezmoi `modify_` script enforces only the managed keys (model, reasoning effort, MCP servers) and passes everything else through verbatim — the diff stays empty no matter what the app does.
+Codex は `~/.codex/config.toml` を実行時に書き換え、書く内容はリリースごとに増える。chezmoi の `modify_` スクリプトで管理キー（model、reasoning effort、MCP サーバー）だけを強制し、それ以外は素通しにする。アプリが何を書いても diff は空のまま保たれる。
 
-## Daily workflow
+## 日常の操作
 
 ```sh
-chezmoi diff          # what would change
-chezmoi add <file>    # pull a live edit back into the repo
-chezmoi apply         # push the repo state out
-chezmoi cd            # jump into the source repo
+chezmoi diff          # 何が変わるかを見る
+chezmoi add <file>    # ライブの編集をリポジトリに取り込む
+chezmoi apply         # リポジトリの状態を反映する
+chezmoi cd            # ソースリポジトリに移動する
 ```
 
-## Local overrides
+## ローカルオーバーライド
 
-| File | For |
-|---|---|
-| `~/.gitconfig.local` | work email, machine-specific git config |
-| `~/.config/chezmoi/chezmoi.toml` | git identity data, `sourceDir` when the source repo lives under ghq |
+- `~/.gitconfig.local`: 職場のメールアドレスなどマシン固有の git 設定
+- `~/.config/chezmoi/chezmoi.toml`: git identity の data 値と、ソースを ghq 配下に置く場合の `sourceDir`
 
-## Bootstrap
+## ブートストラップ
 
-- `bootstrap.sh` is the blank-Mac entry point: sudo keepalive, chezmoi init, Claude Code install, herdr integrations, GitHub CLI login
-- `run_once_before_install-brew.sh` installs Homebrew if absent
-- `run_onchange_after_brew-bundle.sh.tmpl` runs `brew bundle --no-upgrade` whenever the Brewfile changes
-- `run_onchange_after_mise-install.sh.tmpl` runs `mise install` whenever the mise config changes
-- `run_onchange_after_macos-defaults.sh` bakes macOS keyboard settings via `defaults write` — fastest key repeat, no press-and-hold accent popup, Caps Lock as Control on the built-in keyboard and HHKB; re-login to take effect
+- `bootstrap.sh`: まっさらな Mac の入口。sudo キープアライブ、chezmoi init、Claude Code のインストール、herdr 統合、GitHub CLI ログイン
+- `run_once_before_install-brew.sh`: Homebrew が無ければインストールする
+- `run_onchange_after_brew-bundle.sh.tmpl`: Brewfile が変わるたびに `brew bundle --no-upgrade` を実行する
+- `run_onchange_after_macos-defaults.sh`: macOS のキーボード設定を `defaults write` で焼く。キーリピート最速、長押しポップアップ無効、内蔵キーボードと HHKB の Caps Lock を Control 化。反映には再ログインが要る
+- `run_onchange_after_mise-install.sh.tmpl`: mise 設定が変わるたびに `mise install` を実行する
 
-## Fonts
+## フォント
 
-JetBrains Mono is the primary font and UDEV Gothic NF the fallback; both install from the Brewfile, so a fresh machine needs no manual font steps.
+主フォントは JetBrains Mono、フォールバックは UDEV Gothic NF。どちらも Brewfile から入るので、新しいマシンで手動のフォント作業は無い。
