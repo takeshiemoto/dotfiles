@@ -12,6 +12,7 @@ brew "zsh-autosuggestions"
 brew "gh"
 brew "mise"
 brew "herdr"
+brew "bun"
 
 cask "codex"
 cask "karabiner-elements"

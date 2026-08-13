@@ -1,44 +1,19 @@
 {
-  "env": {
-    "CLAUDE_CODE_SUBAGENT_MODEL": "claude-sonnet-5"
-  },
-  "permissions": {
-    "ask": [
-      "Bash(aws:*)"
-    ],
-    "defaultMode": "auto"
-  },
-  "model": "claude-fable-5[1m]",
-  "hooks": {
-    "SessionStart": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash '/Users/takeshiemoto/.claude/hooks/herdr-agent-state.sh' session",
-            "timeout": 10
-          }
-        ]
-      }
-    ]
-  },
-  "statusLine": {
-    "type": "command",
-    "command": "bunx -y ccstatusline@latest",
-    "padding": 0,
-    "refreshInterval": 10
-  },
+  "agentPushNotifEnabled": true,
+  "effortLevel": "xhigh",
   "enabledPlugins": {
     "chrome-devtools-mcp@chrome-devtools-plugins": true,
     "coderabbit@claude-plugins-official": true,
     "codex@openai-codex": true,
+    "crit@crit": true,
     "example-skills@anthropic-agent-skills": true,
     "figma@claude-plugins-official": true,
     "frontend-design@claude-plugins-official": true,
-    "samba4@samba4-testcases": true,
     "langfuse-observability@langfuse-observability": true,
-    "crit@crit": true
+    "samba4@samba4-testcases": true
+  },
+  "env": {
+    "CLAUDE_CODE_SUBAGENT_MODEL": "claude-sonnet-5"
   },
   "extraKnownMarketplaces": {
     "anthropic-agent-skills": {
@@ -49,49 +24,70 @@
     },
     "chrome-devtools-plugins": {
       "source": {
-        "source": "github",
-        "repo": "ChromeDevTools/chrome-devtools-mcp"
-      }
-    },
-    "openai-codex": {
-      "source": {
-        "source": "github",
-        "repo": "openai/codex-plugin-cc"
-      }
-    },
-    "samba4-testcases": {
-      "source": {
-        "source": "github",
-        "repo": "chatwork-st/samba4-testcases"
-      }
-    },
-    "langfuse-observability": {
-      "source": {
-        "source": "github",
-        "repo": "langfuse/Claude-Observability-Plugin"
+        "repo": "ChromeDevTools/chrome-devtools-mcp",
+        "source": "github"
       }
     },
     "crit": {
       "source": {
-        "source": "github",
-        "repo": "tomasz-tomczyk/crit"
+        "repo": "tomasz-tomczyk/crit",
+        "source": "github"
+      }
+    },
+    "langfuse-observability": {
+      "source": {
+        "repo": "langfuse/Claude-Observability-Plugin",
+        "source": "github"
+      }
+    },
+    "openai-codex": {
+      "source": {
+        "repo": "openai/codex-plugin-cc",
+        "source": "github"
+      }
+    },
+    "samba4-testcases": {
+      "source": {
+        "repo": "chatwork-st/samba4-testcases",
+        "source": "github"
       }
     }
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "command": "bash '/Users/takeshiemoto/.claude/hooks/herdr-agent-state.sh' session",
+            "timeout": 10,
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
+      }
+    ]
+  },
+  "model": "claude-fable-5[1m]",
+  "permissions": {
+    "allow": [
+      "Bash(aws logs:*)"
+    ],
+    "ask": [
+      "Bash(aws:*)"
+    ],
+    "defaultMode": "auto"
   },
   "pluginConfigs": {
     "langfuse-observability@langfuse-observability": {
       "options": {
-        "LANGFUSE_PUBLIC_KEY": "pk-lf-a98af76d-8820-4e54-afcd-6d4c245ba2ce",
-        "LANGFUSE_BASE_URL": "http://localhost:3000"
+        "LANGFUSE_BASE_URL": "http://localhost:3000",
+        "LANGFUSE_PUBLIC_KEY": "pk-lf-a98af76d-8820-4e54-afcd-6d4c245ba2ce"
       }
     }
   },
-  "effortLevel": "medium",
-  "skipWorkflowUsageWarning": true,
-  "theme": "auto",
-  "agentPushNotifEnabled": true,
   "skillOverrides": {
     "agent-install": "off",
+    "code-review": "off",
     "dd-audit": "off",
     "dd-audit-ai-activity": "off",
     "dd-audit-compliance-report": "off",
@@ -115,5 +111,13 @@
     "troubleshoot-ssi": "off",
     "upgrade-browser-sdk-v7": "off",
     "verify-ssi": "off"
-  }
+  },
+  "skipWorkflowUsageWarning": true,
+  "statusLine": {
+    "command": "bunx -y ccstatusline@latest",
+    "padding": 0,
+    "refreshInterval": 10,
+    "type": "command"
+  },
+  "theme": "auto"
 }

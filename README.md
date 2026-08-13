@@ -12,11 +12,13 @@ A blank Mac becomes a fully configured daily driver with one command. macOS dotf
 
 ## Quick start
 
+On a blank Mac:
+
 ```sh
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply takeshiemoto
+curl -fsSL https://raw.githubusercontent.com/takeshiemoto/dotfiles/main/bootstrap.sh -o /tmp/bootstrap.sh && bash /tmp/bootstrap.sh
 ```
 
-One command installs chezmoi, clones this repo, bootstraps Homebrew, installs every tool in the Brewfile, and writes every config into place. Already have chezmoi?
+One command caches sudo, installs chezmoi and Homebrew, writes every config into place, installs every tool in the Brewfile plus mise-managed runtimes, installs Claude Code, wires the herdr agent hooks, and signs into GitHub CLI. Already have chezmoi?
 
 ```sh
 chezmoi init --apply takeshiemoto
@@ -24,19 +26,40 @@ chezmoi init --apply takeshiemoto
 
 On a machine with an existing setup, preview first with `chezmoi diff`.
 
+## First boot checklist
+
+What bootstrap cannot do for you, in order:
+
+1. Karabiner-Elements: allow the driver extension and input monitoring in System Settings
+2. Sign in: `claude` then `/login` (Claude Code then prompts to install the plugins and marketplaces listed in settings), `codex`, Slack, Rancher Desktop
+3. Restore external skills into `~/.agents/skills` — the tracked symlinks under `~/.claude/skills` point there:
+
+   ```sh
+   npx -y skills add mattpocock/skills -g --skill grill-me --skill grill-with-docs -y
+   npx -y skills add iKora128/stop-ai-slop-jp -g -y
+   ```
+
+4. Git identity for this machine: put overrides in `~/.gitconfig.local`, or edit `[data]` in `~/.config/chezmoi/chezmoi.toml` and re-apply
+5. Langfuse (optional): agent tracing points at a self-hosted instance on `http://localhost:3000`; start it and set that project's public key in `pluginConfigs` in `~/.claude/settings.json` (a fresh instance generates new keys), or disable the `langfuse-observability` plugin
+6. ghq-managed source (optional): `ghq get takeshiemoto/dotfiles`, then set `sourceDir` at the top level of `~/.config/chezmoi/chezmoi.toml` — above the `[data]` section, or it silently becomes a data value — and confirm with `chezmoi source-path`:
+
+   ```toml
+   sourceDir = "/Users/<you>/ghq/github.com/takeshiemoto/dotfiles"
+   ```
+
 ## Design
 
 - Universal config only. Machine-specific and work-specific values live in gitignored local overrides, never in this repo.
 - Tools own their runtime state. Managed keys are enforced; whatever a tool writes at runtime passes through untouched, so `chezmoi apply` never fights an app.
-- Reproducible by construction. `brew bundle` re-runs whenever the Brewfile changes, taps are pre-trusted, and fonts have Brewfile-managed fallbacks.
+- Reproducible by construction. `brew bundle` re-runs whenever the Brewfile changes, `mise install` re-runs whenever its config changes, taps are pre-trusted, and fonts install from the Brewfile.
 
 ## What's inside
 
 | Source | Target | What |
 |---|---|---|
 | `dot_zshrc`, `dot_zshenv` | `~/.zshrc`, `~/.zshenv` | zsh with abbr, autosuggestions, peco history and ghq repo jumping |
-| `dot_config/wezterm/` | `~/.config/wezterm/` | WezTerm: Tokyo Night, leader-key panes, MonoLisa with UDEV Gothic NF fallback |
-| `dot_config/nvim/` | `~/.config/nvim/` | Neovim (LazyVim): TypeScript, Go, Rust, PHP extras, JetBrains-style autosave |
+| `dot_config/wezterm/` | `~/.config/wezterm/` | WezTerm: vague palette, leader-key panes, JetBrains Mono with UDEV Gothic NF fallback |
+| `dot_config/nvim/` | `~/.config/nvim/` | Neovim (LazyVim): vague colorscheme, TypeScript, Go, Rust, PHP extras, JetBrains-style autosave |
 | `dot_config/lazygit/` | `~/.config/lazygit/` | lazygit |
 | `dot_config/private_karabiner/` | `~/.config/karabiner/` | Karabiner-Elements: Esc also sends Eisu for vim, lone Cmd keys switch IME |
 | `dot_config/zsh-abbr/` | `~/.config/zsh-abbr/` | shell abbreviations |
@@ -57,6 +80,8 @@ chezmoi add ~/.claude/settings.json
 chezmoi add ~/.claude/skills/<name>
 ```
 
+External skills installed with [skills.sh](https://skills.sh) live in `~/.agents/skills`; only the symlinks under `~/.claude/skills` are tracked here, so restore the targets on a new machine (see the checklist).
+
 ## Tool-rewritten configs
 
 Codex rewrites `~/.codex/config.toml` at runtime, and what it writes grows with every release. A chezmoi `modify_` script enforces only the managed keys (model, reasoning effort, MCP servers) and passes everything else through verbatim — the diff stays empty no matter what the app does.
@@ -75,12 +100,15 @@ chezmoi cd            # jump into the source repo
 | File | For |
 |---|---|
 | `~/.gitconfig.local` | work email, machine-specific git config |
+| `~/.config/chezmoi/chezmoi.toml` | git identity data, `sourceDir` when the source repo lives under ghq |
 
 ## Bootstrap
 
+- `bootstrap.sh` is the blank-Mac entry point: sudo keepalive, chezmoi init, Claude Code install, herdr integrations, GitHub CLI login
 - `run_once_before_install-brew.sh` installs Homebrew if absent
 - `run_onchange_after_brew-bundle.sh.tmpl` runs `brew bundle --no-upgrade` whenever the Brewfile changes
+- `run_onchange_after_mise-install.sh.tmpl` runs `mise install` whenever the mise config changes
 
 ## Fonts
 
-WezTerm uses MonoLisa Trial, which is a manual install (EULA); UDEV Gothic NF from the Brewfile is the fallback, so a fresh machine works without it.
+JetBrains Mono is the primary font and UDEV Gothic NF the fallback; both install from the Brewfile, so a fresh machine needs no manual font steps.
