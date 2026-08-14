@@ -20,7 +20,7 @@ wezterm.on("format-tab-title", function(tab)
 end)
 config.font = wezterm.font_with_fallback({
 	"JetBrains Mono",
-	"UDEV Gothic NF",
+	"IBM Plex Sans JP",
 })
 config.harfbuzz_features = { "calt=0", "clig=0", "liga=0" }
 config.font_size = 12.0

@@ -1,0 +1,8 @@
+{
+  "interfaceFontFamily": "IBM Plex Sans JP",
+  "textFontFamily": "IBM Plex Sans JP",
+  "monospaceFontFamily": "JetBrains Mono",
+  "baseFontSize": 16,
+  "showViewHeader": true,
+  "showRibbon": true
+}

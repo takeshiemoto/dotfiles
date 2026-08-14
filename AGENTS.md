@@ -29,7 +29,7 @@ chezmoi の命名規約に従う。`dot_` は `~/.` に展開され、`private_`
 
 - `dot_zshrc`, `dot_zshenv`: zsh。abbr、autosuggestions、peco のヒストリ検索と ghq リポジトリジャンプ
 - `dot_gitconfig.tmpl`: git 設定。末尾で `~/.gitconfig.local` を include
-- `dot_config/wezterm/`: WezTerm。vague カラー、JetBrains Mono と UDEV Gothic NF のフォールバック
+- `dot_config/wezterm/`: WezTerm。vague カラー、JetBrains Mono と IBM Plex Sans JP のフォールバック
 - `dot_config/nvim/`: Neovim (LazyVim)。vague カラースキーム
 - `dot_config/lazygit/`: lazygit
 - `dot_config/git/ignore`: グローバル gitignore
@@ -41,6 +41,7 @@ chezmoi の命名規約に従う。`dot_` は `~/.` に展開され、`private_`
 - `dot_config/ccstatusline/`: ccstatusline（Claude Code ステータスライン）
 - `dot_claude/`: Claude Code ユーザースコープ設定（settings.json、rules、skills）
 - `dot_codex/`: Codex ユーザースコープ設定
+- `ghq/github.com/takeshiemoto/obsidian/dot_obsidian/`: Obsidian vault 設定。appearance や core plugins などの宣言的設定だけを追跡し、workspace.json など実行時状態は追跡しない
 
 bootstrap スクリプト:
 
