@@ -1,6 +1,16 @@
-{{- $name := promptStringOnce . "name" "Git user.name" "takeshiemoto" -}}
-{{- $email := promptStringOnce . "email" "Git user.email (個人 / マシンごとに上書き可)" "private.takeshiemoto@gmail.com" -}}
+sourceDir = {{ .chezmoi.sourceDir | quote }}
 
 [data]
-name = {{ $name | quote }}
-email = {{ $email | quote }}
+name = {{ promptStringOnce . "name" "Git user.name" "takeshiemoto" | quote }}
+email = {{ promptStringOnce . "email" "Git user.email (個人 / マシンごとに上書き可)" "private.takeshiemoto@gmail.com" | quote }}
+
+[data.install]
+codex = {{ promptBoolOnce . "install.codex" "cask codex を入れる" true }}
+karabiner_elements = {{ promptBoolOnce . "install.karabiner_elements" "cask karabiner-elements を入れる" true }}
+obsidian = {{ promptBoolOnce . "install.obsidian" "cask obsidian を入れる" true }}
+rancher = {{ promptBoolOnce . "install.rancher" "cask rancher を入れる" true }}
+slack = {{ promptBoolOnce . "install.slack" "cask slack を入れる" true }}
+wezterm = {{ promptBoolOnce . "install.wezterm" "cask wezterm を入れる" true }}
+font_jetbrains_mono = {{ promptBoolOnce . "install.font_jetbrains_mono" "cask font-jetbrains-mono を入れる" true }}
+font_ibm_plex_sans_jp = {{ promptBoolOnce . "install.font_ibm_plex_sans_jp" "cask font-ibm-plex-sans-jp を入れる" true }}
+font_commit_mono = {{ promptBoolOnce . "install.font_commit_mono" "cask font-commit-mono を入れる" true }}

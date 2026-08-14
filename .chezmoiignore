@@ -1,7 +1,11 @@
 README.md
 CLAUDE.md
 AGENTS.md
-Brewfile
 bootstrap.sh
 
 **/.DS_Store
+
+{{ if not (dig "install" "obsidian" true .) }}
+ghq
+ghq/**
+{{ end }}

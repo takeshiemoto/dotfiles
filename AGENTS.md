@@ -22,6 +22,7 @@ macOS 環境の設定ファイルを [chezmoi](https://www.chezmoi.io/) で一�
 - 汎用の設定だけを追跡する。マシン固有と案件固有の値は `~/.gitconfig.local` や `~/.config/chezmoi/chezmoi.toml` などローカルにだけ置き、このリポジトリには入れない
 - 実行時状態はツールに委ねる。管理対象のキーだけを強制し、ツールが実行時に書く内容はそのまま通す。`chezmoi apply` がアプリと喧嘩しない状態を保つ
 - 構成から再現する。Brewfile が変われば `brew bundle` が、mise 設定が変われば `mise install` が再実行される。tap は `dot_config/private_homebrew/` で事前信頼済み、フォントも Brewfile から入る
+- cask は `chezmoi init` の対話で選ぶ。`.chezmoi.toml.tmpl` が cask ごとに導入可否を聞き、回答は `~/.config/chezmoi/chezmoi.toml` の `[data.install]` にローカル保存され、Brewfile テンプレートと `.chezmoiignore` が `.install` フラグで分岐する。CLI 系は設定ファイルが依存するため無条件で入れる
 
 ## ディレクトリ構造
 
@@ -35,7 +36,9 @@ chezmoi の命名規約に従う。`dot_` は `~/.` に展開され、`private_`
 - `dot_config/git/ignore`: グローバル gitignore
 - `dot_config/zsh-abbr/`: zsh-abbr 略語定義
 - `dot_config/herdr/`: herdr
-- `dot_config/private_homebrew/`: brew の tap 信頼リスト（trust.json）
+- `dot_config/private_homebrew/`: brew の tap 信頼リスト（trust.json）と Brewfile の描画先（Brewfile.tmpl → `~/.config/homebrew/Brewfile`）
+- `.chezmoi.toml.tmpl`: `chezmoi init` 時の対話プロンプト（git identity と cask ごとの導入可否）
+- `.chezmoitemplates/Brewfile`: Brewfile 本体。cask は `.install` フラグで条件分岐する
 - `dot_config/private_karabiner/`: Karabiner-Elements。Esc で英数も送出し、単押しの Cmd で IME を切り替える
 - `dot_config/mise/`: mise グローバル設定
 - `dot_config/ccstatusline/`: ccstatusline（Claude Code ステータスライン）
@@ -47,7 +50,7 @@ bootstrap スクリプト:
 
 - `bootstrap.sh`: まっさらな Mac の入口（chezmoiignore 済み）。sudo キープアライブ、chezmoi init、Claude Code のインストール、herdr 統合、GitHub CLI ログイン
 - `run_once_before_install-brew.sh`: apply 前に 1 回。Homebrew をインストールする
-- `run_onchange_after_brew-bundle.sh.tmpl`: Brewfile 変更時（apply 後）に `brew bundle --no-upgrade` を実行する
+- `run_onchange_after_brew-bundle.sh.tmpl`: 描画後の Brewfile 変更時（apply 後）に `brew bundle --no-upgrade` を実行する
 - `run_onchange_after_macos-defaults.sh`: macOS のキーボード設定を `defaults write` で適用する。反映には再ログインが要る
 - `run_onchange_after_mise-install.sh.tmpl`: mise 設定変更時に `mise install` を実行する
 
@@ -68,5 +71,5 @@ skills.sh で入れた外部スキルの実体は `~/.agents/skills` にあり�
 
 - 設定ファイルの追加・移動時は chezmoi 命名規約に従う（`dot_*`、`private_*`、`*.tmpl`）
 - 仕事識別子（勤務先・案件・社内ツールを特定できる名称やプレフィックス）や machineId 系の値は dotfiles に commit しない。ルール文中にも実名を書かない
-- `Brewfile` はツール追加時に追記する
+- ツール追加時は `.chezmoitemplates/Brewfile` に追記する。cask を任意化する場合は `.chezmoi.toml.tmpl` に promptBoolOnce を足し、`.install` フラグで分岐する
 - このリポジトリ固有の指示は `AGENTS.md` に書く（chezmoiignore 済み）

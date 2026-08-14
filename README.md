@@ -18,6 +18,8 @@ curl -fsSL https://raw.githubusercontent.com/takeshiemoto/dotfiles/main/bootstra
 
 chezmoi が既にあるマシンでは `chezmoi init --apply takeshiemoto` で足りる。既存環境に重ねる場合は、先に `chezmoi diff` で差分を確認する。
 
+初回の `chezmoi init` では git の name / email と、cask（GUI アプリ・フォント）ごとの導入可否を対話で聞かれる。回答は `~/.config/chezmoi/chezmoi.toml` に保存され、以後は聞かれない。CLI 系ツールは設定ファイルが依存するため質問なしで入る。
+
 ## 初回セットアップチェックリスト
 
 bootstrap が自動化できない手順。上から順に済ませる。
@@ -31,7 +33,7 @@ bootstrap が自動化できない手順。上から順に済ませる。
    npx -y skills add iKora128/stop-ai-slop-jp -g -y
    ```
 
-4. Git identity: `~/.gitconfig.local` に上書きを書くか、`~/.config/chezmoi/chezmoi.toml` の `[data]` を編集して再 apply する
+4. Git identity: init 時の回答から設定される。変える場合は `~/.gitconfig.local` に上書きを書くか、`~/.config/chezmoi/chezmoi.toml` の `[data]` を編集して再 apply する
 5. Langfuse（任意）: セルフホストを起動し、そのプロジェクトの public key を `~/.claude/settings.json` の `pluginConfigs` に設定する。使わないなら `langfuse-observability` プラグインを無効にする
 6. ghq 配下で source を管理する場合: `ghq get takeshiemoto/dotfiles` の後、`~/.config/chezmoi/chezmoi.toml` の最上位（`[data]` より上）に次を書き、`chezmoi source-path` で確認する
 
@@ -49,5 +51,7 @@ chezmoi add <file>    # ライブの編集をリポジトリに取り込む
 chezmoi apply         # リポジトリの状態を反映する
 chezmoi cd            # ソースリポジトリに移動する
 ```
+
+cask の導入可否を後から変えるには `~/.config/chezmoi/chezmoi.toml` の `[data.install]` を編集して `chezmoi apply` する。true にすれば次の apply で入るが、false にしても導入済みのものはアンインストールされない。
 
 リポジトリの設計と規約は `AGENTS.md` にある。

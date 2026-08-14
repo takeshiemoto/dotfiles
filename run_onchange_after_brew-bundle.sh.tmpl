@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Brewfile hash: {{ include "Brewfile" | sha256sum }}
+# Brewfile hash: {{ includeTemplate "Brewfile" . | sha256sum }}
 set -eu
 
 if [ -x /opt/homebrew/bin/brew ]; then
@@ -9,4 +9,4 @@ elif [ -x /usr/local/bin/brew ]; then
 fi
 
 echo "[chezmoi] Running brew bundle..."
-brew bundle --no-upgrade --file="{{ .chezmoi.sourceDir }}/Brewfile"
+brew bundle --no-upgrade --file="{{ .chezmoi.homeDir }}/.config/homebrew/Brewfile"
