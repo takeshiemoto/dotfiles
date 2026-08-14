@@ -1,4 +1,5 @@
 tap "olets/tap"
+tap "datadog-labs/pack"
 
 brew "chezmoi"
 brew "ghq"
@@ -8,6 +9,7 @@ brew "neovim"
 brew "ripgrep"
 brew "fd"
 brew "olets/tap/zsh-abbr@6"
+brew "datadog-labs/pack/pup"
 brew "zsh-autosuggestions"
 brew "gh"
 brew "mise"

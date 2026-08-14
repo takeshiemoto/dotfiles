@@ -62,7 +62,7 @@ skills.sh で入れた外部スキルの実体は `~/.agents/skills` にあり�
 ## ツールが書き換える設定
 
 - Codex の `~/.codex/config.toml` は `modify_` スクリプトで管理する。管理キー（model 等）だけを強制し、Codex が実行時に追記する設定はそのまま通す
-- 素の追跡ファイルは、ツールのシリアライザ形式に source を合わせて diff を恒常ゼロにする。`dot_claude/private_settings.json` はキー昇順・末尾改行なし（Claude Code の書き戻し形式）、`dot_gitconfig.tmpl` は gh が書く空 helper 行（`=` の後に末尾スペース）と gist セクションを同一バイトで含む
+- 素の追跡ファイルは、ツールのシリアライザ形式に source を合わせて diff を恒常ゼロにする。`dot_claude/private_settings.json` は Claude Code の書き戻しと同一バイト（形式はバージョンで変わるため、ドリフトしたら `chezmoi add` で追随する）、`dot_gitconfig.tmpl` は gh が書く空 helper 行（`=` の後に末尾スペース）と gist セクションを同一バイトで含む
 
 ## 変更時の注意
 
