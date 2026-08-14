@@ -28,6 +28,9 @@ cask "obsidian"
 {{ if .install.rancher -}}
 cask "rancher"
 {{ end -}}
+{{ if .install.raycast -}}
+cask "raycast"
+{{ end -}}
 {{ if .install.slack -}}
 cask "slack"
 {{ end -}}
