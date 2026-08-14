@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 set -eu
 
-echo "[chezmoi] Applying macOS keyboard defaults..."
+echo "[chezmoi] Applying macOS defaults..."
+
+defaults write com.apple.dock autohide -bool true
+killall Dock || true
 
 defaults write NSGlobalDomain KeyRepeat -int 2
 defaults write NSGlobalDomain InitialKeyRepeat -int 15

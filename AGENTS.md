@@ -51,7 +51,7 @@ bootstrap スクリプト:
 - `bootstrap.sh`: まっさらな Mac の入口（chezmoiignore 済み）。sudo キープアライブ、chezmoi init、Claude Code のインストール、herdr 統合、GitHub CLI ログイン
 - `run_once_before_install-brew.sh`: apply 前に 1 回。Homebrew をインストールする
 - `run_onchange_after_brew-bundle.sh.tmpl`: 描画後の Brewfile 変更時（apply 後）に `brew bundle --no-upgrade` を実行する
-- `run_onchange_after_macos-defaults.sh`: macOS のキーボード設定を `defaults write` で適用する。反映には再ログインが要る
+- `run_onchange_after_macos-defaults.sh`: macOS のキーボードと Dock の設定を `defaults write` で適用する。キーボードの反映には再ログインが要る
 - `run_onchange_after_mise-install.sh.tmpl`: mise 設定変更時に `mise install` を実行する
 
 run スクリプトは初回 apply 時に brew が PATH に無い前提で書く（スクリプト内で brew shellenv を eval する）。
