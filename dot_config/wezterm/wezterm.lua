@@ -18,7 +18,10 @@ wezterm.on("format-tab-title", function(tab)
 	local dir = cwd and basename(cwd.file_path or "") or ""
 	return " " .. dir .. " " .. proc .. " "
 end)
-config.font = wezterm.font("UDEV Gothic 35")
+config.font = wezterm.font_with_fallback({
+	"Google Sans Code",
+	"BIZ UDGothic",
+})
 config.harfbuzz_features = { "calt=0", "clig=0", "liga=0" }
 config.font_size = 12.0
 config.line_height = 1.1
