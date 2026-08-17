@@ -58,3 +58,9 @@ cask "font-ibm-plex-mono"
 {{ if .install.font_commit_mono -}}
 cask "font-commit-mono"
 {{ end -}}
+{{ if .install.font_google_sans_code -}}
+cask "font-google-sans-code"
+{{ end -}}
+{{ if .install.font_biz_udgothic -}}
+cask "font-biz-udgothic"
+{{ end -}}
