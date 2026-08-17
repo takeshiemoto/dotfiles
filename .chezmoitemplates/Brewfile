@@ -19,6 +19,9 @@ brew "bun"
 {{ if .install.codex -}}
 cask "codex"
 {{ end -}}
+{{ if .install.coteditor -}}
+cask "coteditor"
+{{ end -}}
 {{ if .install.karabiner_elements -}}
 cask "karabiner-elements"
 {{ end -}}
