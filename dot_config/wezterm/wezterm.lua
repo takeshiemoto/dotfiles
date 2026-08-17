@@ -19,8 +19,8 @@ wezterm.on("format-tab-title", function(tab)
 	return " " .. dir .. " " .. proc .. " "
 end)
 config.font = wezterm.font_with_fallback({
-	"JetBrains Mono",
-	"IBM Plex Sans JP",
+	"IBM Plex Mono",
+	{ family = "IBM Plex Sans JP", weight = 450 },
 })
 config.harfbuzz_features = { "calt=0", "clig=0", "liga=0" }
 config.font_size = 12.0

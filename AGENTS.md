@@ -30,7 +30,7 @@ chezmoi の命名規約に従う。`dot_` は `~/.` に展開され、`private_`
 
 - `dot_zshrc`, `dot_zshenv`: zsh。abbr、autosuggestions、peco のヒストリ検索と ghq リポジトリジャンプ
 - `dot_gitconfig.tmpl`: git 設定。末尾で `~/.gitconfig.local` を include
-- `dot_config/wezterm/`: WezTerm。vague カラー、JetBrains Mono と IBM Plex Sans JP のフォールバック
+- `dot_config/wezterm/`: WezTerm。vague カラー、IBM Plex Mono と IBM Plex Sans JP のフォールバック
 - `dot_config/nvim/`: Neovim (LazyVim)。vague カラースキーム
 - `dot_config/lazygit/`: lazygit
 - `dot_config/git/ignore`: グローバル gitignore

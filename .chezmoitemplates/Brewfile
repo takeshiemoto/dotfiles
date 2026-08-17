@@ -15,6 +15,7 @@ brew "gh"
 brew "mise"
 brew "herdr"
 brew "bun"
+brew "dnsmasq"
 
 {{ if .install.codex -}}
 cask "codex"
@@ -45,6 +46,9 @@ cask "font-jetbrains-mono"
 {{ end -}}
 {{ if .install.font_ibm_plex_sans_jp -}}
 cask "font-ibm-plex-sans-jp"
+{{ end -}}
+{{ if .install.font_ibm_plex_mono -}}
+cask "font-ibm-plex-mono"
 {{ end -}}
 {{ if .install.font_commit_mono -}}
 cask "font-commit-mono"
