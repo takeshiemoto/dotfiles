@@ -16,6 +16,8 @@ brew "mise"
 brew "herdr"
 brew "bun"
 brew "dnsmasq"
+brew "awscli"
+cask "session-manager-plugin"
 
 {{ if .install.beekeeper_studio -}}
 cask "beekeeper-studio"
