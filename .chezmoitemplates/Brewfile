@@ -46,18 +46,6 @@ cask "slack"
 {{ if .install.wezterm -}}
 cask "wezterm"
 {{ end -}}
-{{ if .install.font_jetbrains_mono -}}
-cask "font-jetbrains-mono"
-{{ end -}}
-{{ if .install.font_ibm_plex_sans_jp -}}
-cask "font-ibm-plex-sans-jp"
-{{ end -}}
-{{ if .install.font_ibm_plex_mono -}}
-cask "font-ibm-plex-mono"
-{{ end -}}
-{{ if .install.font_commit_mono -}}
-cask "font-commit-mono"
-{{ end -}}
 {{ if .install.font_google_sans_code -}}
 cask "font-google-sans-code"
 {{ end -}}
