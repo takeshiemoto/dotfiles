@@ -17,6 +17,9 @@ brew "herdr"
 brew "bun"
 brew "dnsmasq"
 
+{{ if .install.beekeeper_studio -}}
+cask "beekeeper-studio"
+{{ end -}}
 {{ if .install.codex -}}
 cask "codex"
 {{ end -}}

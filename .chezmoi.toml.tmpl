@@ -5,6 +5,7 @@ name = {{ promptStringOnce . "name" "Git user.name" "takeshiemoto" | quote }}
 email = {{ promptStringOnce . "email" "Git user.email (個人 / マシンごとに上書き可)" "private.takeshiemoto@gmail.com" | quote }}
 
 [data.install]
+beekeeper_studio = {{ promptBoolOnce . "install.beekeeper_studio" "cask beekeeper-studio を入れる" true }}
 codex = {{ promptBoolOnce . "install.codex" "cask codex を入れる" true }}
 coteditor = {{ promptBoolOnce . "install.coteditor" "cask coteditor を入れる" true }}
 karabiner_elements = {{ promptBoolOnce . "install.karabiner_elements" "cask karabiner-elements を入れる" true }}
