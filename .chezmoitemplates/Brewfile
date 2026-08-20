@@ -22,6 +22,9 @@ cask "session-manager-plugin"
 {{ if .install.beekeeper_studio -}}
 cask "beekeeper-studio"
 {{ end -}}
+{{ if .install.brave_browser -}}
+cask "brave-browser"
+{{ end -}}
 {{ if .install.codex -}}
 cask "codex"
 {{ end -}}
@@ -45,6 +48,9 @@ cask "slack"
 {{ end -}}
 {{ if .install.wezterm -}}
 cask "wezterm"
+{{ end -}}
+{{ if .install.wispr_flow -}}
+cask "wispr-flow"
 {{ end -}}
 {{ if .install.font_google_sans_code -}}
 cask "font-google-sans-code"
