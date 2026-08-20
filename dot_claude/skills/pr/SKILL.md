@@ -39,8 +39,8 @@ description: >-
            -o -ipath './docs/PULL_REQUEST_TEMPLATE*' \) -not -path './.git/*'
    ```
 
-4. 本文生成：[references/body.md](references/body.md) を正として組み立てる。叙述の素材は手順2の log/diff のみ。
-5. タイトル生成：[references/title.md](references/title.md) の規約探索・適用・自己照合に従う。
+4. 本文生成：[references/body.md](references/body.md) を正として組み立てる。叙述の素材は手順2の log/diff のみ。組み立て後に「字数を削る」パスを1回通す。
+5. タイトル生成：[references/title.md](references/title.md) の規約探索・適用・字数削減・自己照合に従う。
 6. push：停止条件を全通過してから `git push -u origin HEAD`（中断する PR のブランチを公開しないため最後に置く）。
 7. PR 作成/更新：
    - 既存 PR（`gh pr view --json number,url,state`）があれば `gh pr edit <number> --body-file <tmp>` で本文のみ全面再生成・置換。タイトルは触らない（手修正を潰さない）。手追記は保持されない旨を報告に1行添える。
