@@ -2,16 +2,23 @@
   "env": {
     "CLAUDE_CODE_SUBAGENT_MODEL": "claude-sonnet-5"
   },
+  "attribution": {
+    "commit": "",
+    "pr": "",
+    "sessionUrl": false
+  },
   "permissions": {
     "allow": [
-      "Bash(aws logs:*)"
+      "Bash(aws logs:*)",
+      "Bash(cd:*)",
+      "Bash(grep:*)"
     ],
     "ask": [
       "Bash(aws:*)"
     ],
     "defaultMode": "auto"
   },
-  "model": "claude-fable-5[1m]",
+  "model": "claude-fable-5-1[1m]",
   "skillOverrides": {
     "agent-install": "off",
     "code-review": "off",
@@ -68,7 +75,9 @@
     "figma@claude-plugins-official": true,
     "frontend-design@claude-plugins-official": true,
     "langfuse-observability@langfuse-observability": true,
-    "samba4@samba4-testcases": true
+    "samba4@samba4-testcases": true,
+    "slack@claude-plugins-official": true,
+    "mattpocock-skills@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "anthropic-agent-skills": {
@@ -108,7 +117,17 @@
       }
     }
   },
-  "effortLevel": "xhigh",
+  "modelSettings": {
+    "claude-fable-5": {
+      "effortLevel": "high"
+    },
+    "claude-fable-5-1": {
+      "effortLevel": "high"
+    },
+    "claude-sonnet-5": {
+      "effortLevel": "high"
+    }
+  },
   "pluginConfigs": {
     "langfuse-observability@langfuse-observability": {
       "options": {

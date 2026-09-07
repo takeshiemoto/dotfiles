@@ -3,4 +3,5 @@ idiomatic_version_file = true
 idiomatic_version_file_enable_tools = []
 
 [tools]
-node = "24.18.0"
+go = "latest"
+node = "lts"

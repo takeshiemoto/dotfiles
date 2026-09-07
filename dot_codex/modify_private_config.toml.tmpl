@@ -5,6 +5,9 @@
 # desktop state, …) and the set of things it writes grows with each release.
 # So we enforce only the managed keys/sections below and pass everything else
 # through verbatim — Codex's own writes must never produce a permanent diff.
+# Managed top-level keys come in two tiers: forced keys are always rewritten,
+# seed keys are written only when absent so values toggled from the Codex UI
+# (model, reasoning effort) survive `chezmoi apply`.
 # The current file arrives on stdin; our stdout is the target.
 set -euo pipefail
 
@@ -19,27 +22,30 @@ function managed_body(h) {
   if (h == "[plugins.\"tracing@codex-observability-plugin\"]") return "enabled = true"
   if (h == "[features]") return "hooks = true\nterminal_resize_reflow = true\njs_repl = false\nmemories = true\nchronicle = false\nplugin_hooks = true"
   if (h == "[tui]") return "status_line = [\"model-with-reasoning\", \"context-remaining\", \"context-used\", \"five-hour-limit\", \"weekly-limit\"]"
-  if (h == "[tui.keymap]") return "composer.submit = [\"alt-enter\"]\neditor.insert_newline = [\"enter\", \"shift-enter\", \"ctrl-j\"]"
-  if (h == "[sandbox_workspace_write]") return "network_access = true"
+  if (h == "[sandbox_workspace_write]") return "network_access = true\nwritable_roots = [\"" home "/Desktop\"]"
   return ""
 }
+function print_missing_seeds(   i) {
+  for (i = 1; i <= n_seed; i++)
+    if (!seen_top[seed_keys[i]]) print seed_keys[i] " = " seed_top[seed_keys[i]]
+}
 BEGIN {
-  print "model = \"gpt-5.6-sol\""
-  print "model_reasoning_effort = \"high\""
   print "approval_policy = \"on-request\""
   print "approvals_reviewer = \"auto_review\""
   print "sandbox_mode = \"workspace-write\""
-  managed_top["model"] = 1
-  managed_top["model_reasoning_effort"] = 1
   managed_top["approval_policy"] = 1
   managed_top["approvals_reviewer"] = 1
   managed_top["sandbox_mode"] = 1
-  n = split("[projects.\"" home "\"]\n[mcp_servers.context7]\n[plugins.\"github@openai-curated\"]\n[plugins.\"tracing@codex-observability-plugin\"]\n[features]\n[tui]\n[tui.keymap]\n[sandbox_workspace_write]", headers, "\n")
+  seed_top["model"] = "\"gpt-6-astra\""
+  seed_top["model_reasoning_effort"] = "\"low\""
+  seed_top["service_tier"] = "\"default\""
+  n_seed = split("model\nmodel_reasoning_effort\nservice_tier", seed_keys, "\n")
+  n = split("[projects.\"" home "\"]\n[mcp_servers.context7]\n[plugins.\"github@openai-curated\"]\n[plugins.\"tracing@codex-observability-plugin\"]\n[features]\n[tui]\n[sandbox_workspace_write]", headers, "\n")
   in_top = 1
   skip = 0
 }
 /^\[/ {
-  in_top = 0
+  if (in_top) { print_missing_seeds(); in_top = 0 }
   if (managed_body($0) != "") {
     if (!seen[$0]) { print $0; print managed_body($0); print ""; seen[$0] = 1 }
     skip = 1
@@ -54,12 +60,14 @@ BEGIN {
     key = $0
     sub(/[ \t]*=.*/, "", key)
     if (key in managed_top) next
+    if (key in seed_top) seen_top[key] = 1
     print
     next
   }
   if (!skip) print
 }
 END {
+  if (in_top) print_missing_seeds()
   for (i = 1; i <= n; i++)
     if (!seen[headers[i]]) { print ""; print headers[i]; print managed_body(headers[i]) }
 }

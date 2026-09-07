@@ -19,7 +19,7 @@ macOS 環境の設定ファイルを [chezmoi](https://www.chezmoi.io/) で一�
 
 ## 設計方針
 
-- 汎用の設定だけを追跡する。マシン固有と案件固有の値は `~/.gitconfig.local` や `~/.config/chezmoi/chezmoi.toml` などローカルにだけ置き、このリポジトリには入れない
+- 汎用の設定だけを追跡する。マシン固有と案件固有の値は `~/.gitconfig.local` や `~/.config/chezmoi/chezmoi.toml`、`~/.config/raycast/scripts/`（Raycast Script Command）などローカルにだけ置き、このリポジトリには入れない
 - 実行時状態はツールに委ねる。管理対象のキーだけを強制し、ツールが実行時に書く内容はそのまま通す。`chezmoi apply` がアプリと喧嘩しない状態を保つ
 - 構成から再現する。Brewfile が変われば `brew bundle` が、mise 設定が変われば `mise install` が再実行される。tap は `dot_config/private_homebrew/` で事前信頼済み、フォントも Brewfile から入る
 - cask は `chezmoi init` の対話で選ぶ。`.chezmoi.toml.tmpl` が cask ごとに導入可否を聞き、回答は `~/.config/chezmoi/chezmoi.toml` の `[data.install]` にローカル保存され、Brewfile テンプレートと `.chezmoiignore` が `.install` フラグで分岐する。CLI 系は設定ファイルが依存するため無条件で入れる
@@ -64,7 +64,7 @@ skills.sh で入れた外部スキルの実体は `~/.agents/skills` にあり�
 
 ## ツールが書き換える設定
 
-- Codex の `~/.codex/config.toml` は `modify_` スクリプトで管理する。管理キー（model 等）だけを強制し、Codex が実行時に追記する設定はそのまま通す
+- Codex の `~/.codex/config.toml` は `modify_` スクリプトで管理する。管理キーは 2 段で、強制キー（sandbox_mode 等）は常に上書きし、初期値キー（model 等）は無いときだけ既定値を書く。Codex が実行時に追記・変更する設定はそのまま通す
 - 素の追跡ファイルは、ツールのシリアライザ形式に source を合わせて diff を恒常ゼロにする。`dot_claude/private_settings.json` は Claude Code の書き戻しと同一バイト（形式はバージョンで変わるため、ドリフトしたら `chezmoi add` で追随する）、`dot_gitconfig.tmpl` は gh が書く空 helper 行（`=` の後に末尾スペース）と gist セクションを同一バイトで含む
 
 ## 変更時の注意
