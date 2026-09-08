@@ -1,0 +1,29 @@
+#!/bin/bash
+# chezmoi modify_ script for ~/.claude/settings.json
+#
+# Claude Code rewrites this file at runtime. Managed keys are forced from
+# .chezmoitemplates/claude-settings.json; runtime keys (autoMode, whose
+# environment text names machine-local repos and orgs) and any key we do not
+# manage pass through verbatim so Claude Code's own writes never produce a
+# permanent diff. The current file arrives on stdin; our stdout is the target.
+set -euo pipefail
+
+current="$(cat)"
+
+CURRENT="$current" python3 - <<'PY'
+import json, os, sys
+
+managed = json.loads(r'''{{ include ".chezmoitemplates/claude-settings.json" }}''')
+runtime_keys = {"autoMode"}
+
+current = os.environ["CURRENT"]
+live = json.loads(current) if current.strip() else {}
+
+out = {}
+for key, value in live.items():
+    out[key] = managed[key] if key in managed and key not in runtime_keys else value
+for key, value in managed.items():
+    out.setdefault(key, value)
+
+sys.stdout.write(json.dumps(out, indent=2, ensure_ascii=False) + "\n")
+PY

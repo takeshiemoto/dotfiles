@@ -39,6 +39,7 @@ chezmoi の命名規約に従う。`dot_` は `~/.` に展開され、`private_`
 - `dot_config/private_homebrew/`: brew の tap 信頼リスト（trust.json）と Brewfile の描画先（Brewfile.tmpl → `~/.config/homebrew/Brewfile`）
 - `.chezmoi.toml.tmpl`: `chezmoi init` 時の対話プロンプト（git identity と cask ごとの導入可否）
 - `.chezmoitemplates/Brewfile`: Brewfile 本体。cask は `.install` フラグで条件分岐する
+- `.chezmoitemplates/claude-settings.json`: Claude Code settings.json の管理キー本体。`dot_claude/modify_private_settings.json.tmpl` が取り込む
 - `dot_config/private_karabiner/`: Karabiner-Elements。Esc で英数も送出し、単押しの Cmd で IME を切り替える
 - `dot_config/mise/`: mise グローバル設定
 - `dot_config/ccstatusline/`: ccstatusline（Claude Code ステータスライン）
@@ -65,7 +66,8 @@ skills.sh で入れた外部スキルの実体は `~/.agents/skills` にあり�
 ## ツールが書き換える設定
 
 - Codex の `~/.codex/config.toml` は `modify_` スクリプトで管理する。管理キーは 2 段で、強制キー（sandbox_mode 等）は常に上書きし、初期値キー（model 等）は無いときだけ既定値を書く。Codex が実行時に追記・変更する設定はそのまま通す
-- 素の追跡ファイルは、ツールのシリアライザ形式に source を合わせて diff を恒常ゼロにする。`dot_claude/private_settings.json` は Claude Code の書き戻しと同一バイト（形式はバージョンで変わるため、ドリフトしたら `chezmoi add` で追随する）、`dot_gitconfig.tmpl` は gh が書く空 helper 行（`=` の後に末尾スペース）と gist セクションを同一バイトで含む
+- Claude Code の `~/.claude/settings.json` も `modify_` スクリプトで管理する。管理キーは `.chezmoitemplates/claude-settings.json` に置き、`autoMode`（security-review がマシン固有のリポジトリ名を書く）と未管理のキーはそのまま通す。管理キーを変えるときは live の settings.json から `autoMode` を除いた内容をこのファイルに写す
+- 素の追跡ファイルは、ツールのシリアライザ形式に source を合わせて diff を恒常ゼロにする。`dot_gitconfig.tmpl` は gh が書く空 helper 行（`=` の後に末尾スペース）と gist セクションを同一バイトで含み、Obsidian の `appearance.json` は末尾改行なしで保存する
 
 ## 変更時の注意
 
