@@ -19,7 +19,7 @@ wezterm.on("format-tab-title", function(tab)
 	return " " .. dir .. " " .. proc .. " "
 end)
 config.font = wezterm.font_with_fallback({
-	"Google Sans Code",
+	"JetBrains Mono",
 	"BIZ UDGothic",
 })
 config.harfbuzz_features = { "calt=0", "clig=0", "liga=0" }

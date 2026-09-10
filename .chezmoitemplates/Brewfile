@@ -58,3 +58,6 @@ cask "font-google-sans-code"
 {{ if .install.font_biz_udgothic -}}
 cask "font-biz-udgothic"
 {{ end -}}
+{{ if .install.font_line_seed_jp -}}
+cask "font-line-seed-jp"
+{{ end -}}

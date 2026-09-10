@@ -7,7 +7,8 @@
 # through verbatim — Codex's own writes must never produce a permanent diff.
 # Managed top-level keys come in two tiers: forced keys are always rewritten,
 # seed keys are written only when absent so values toggled from the Codex UI
-# (model, reasoning effort) survive `chezmoi apply`.
+# (model, reasoning effort) survive `chezmoi apply`. Legacy sandbox keys are
+# dropped because Codex ignores permission profiles while sandbox_mode exists.
 # The current file arrives on stdin; our stdout is the target.
 set -euo pipefail
 
@@ -22,7 +23,10 @@ function managed_body(h) {
   if (h == "[plugins.\"tracing@codex-observability-plugin\"]") return "enabled = true"
   if (h == "[features]") return "hooks = true\nterminal_resize_reflow = true\njs_repl = false\nmemories = true\nchronicle = false\nplugin_hooks = true"
   if (h == "[tui]") return "status_line = [\"model-with-reasoning\", \"context-remaining\", \"context-used\", \"five-hour-limit\", \"weekly-limit\"]"
-  if (h == "[sandbox_workspace_write]") return "network_access = true\nwritable_roots = [\"" home "/Desktop\"]"
+  if (h == "[permissions.workspace-git]") return "extends = \":workspace\""
+  if (h == "[permissions.workspace-git.workspace_roots]") return "\"" home "/Desktop\" = true"
+  if (h == "[permissions.workspace-git.filesystem.\":workspace_roots\"]") return "\".git\" = \"write\""
+  if (h == "[permissions.workspace-git.network]") return "enabled = true"
   return ""
 }
 function print_missing_seeds(   i) {
@@ -32,20 +36,23 @@ function print_missing_seeds(   i) {
 BEGIN {
   print "approval_policy = \"on-request\""
   print "approvals_reviewer = \"auto_review\""
-  print "sandbox_mode = \"workspace-write\""
+  print "default_permissions = \"workspace-git\""
   managed_top["approval_policy"] = 1
   managed_top["approvals_reviewer"] = 1
+  managed_top["default_permissions"] = 1
   managed_top["sandbox_mode"] = 1
+  dropped["[sandbox_workspace_write]"] = 1
   seed_top["model"] = "\"gpt-6-astra\""
   seed_top["model_reasoning_effort"] = "\"low\""
   seed_top["service_tier"] = "\"default\""
   n_seed = split("model\nmodel_reasoning_effort\nservice_tier", seed_keys, "\n")
-  n = split("[projects.\"" home "\"]\n[mcp_servers.context7]\n[plugins.\"github@openai-curated\"]\n[plugins.\"tracing@codex-observability-plugin\"]\n[features]\n[tui]\n[sandbox_workspace_write]", headers, "\n")
+  n = split("[projects.\"" home "\"]\n[mcp_servers.context7]\n[plugins.\"github@openai-curated\"]\n[plugins.\"tracing@codex-observability-plugin\"]\n[features]\n[tui]\n[permissions.workspace-git]\n[permissions.workspace-git.workspace_roots]\n[permissions.workspace-git.filesystem.\":workspace_roots\"]\n[permissions.workspace-git.network]", headers, "\n")
   in_top = 1
   skip = 0
 }
 /^\[/ {
   if (in_top) { print_missing_seeds(); in_top = 0 }
+  if ($0 in dropped) { skip = 1; next }
   if (managed_body($0) != "") {
     if (!seen[$0]) { print $0; print managed_body($0); print ""; seen[$0] = 1 }
     skip = 1

@@ -8,12 +8,27 @@
   },
   "permissions": {
     "allow": [
-      "Bash(aws logs:*)",
+      "Bash(aws * describe-*)",
+      "Bash(aws * list-*)",
+      "Bash(aws * get-*)",
+      "Bash(aws * batch-get-*)",
+      "Bash(aws * search-*)",
+      "Bash(aws * head-*)",
+      "Bash(aws s3 ls:*)",
+      "Bash(aws logs tail:*)",
+      "Bash(aws logs filter-log-events:*)",
+      "Bash(aws logs start-query:*)",
+      "Bash(aws logs start-live-tail:*)",
+      "Bash(aws cloudtrail lookup-events:*)",
+      "Bash(aws dynamodb query:*)",
+      "Bash(aws dynamodb scan:*)",
+      "Bash(aws configure list:*)",
+      "Bash(aws configure get:*)",
+      "Bash(aws * help)",
+      "Bash(aws help)",
+      "Bash(aws --version)",
       "Bash(cd:*)",
       "Bash(grep:*)"
-    ],
-    "ask": [
-      "Bash(aws:*)"
     ],
     "defaultMode": "auto"
   },
