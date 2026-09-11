@@ -1,8 +1,5 @@
 {
   "trustedtaps": [
     "olets/tap"
-  ],
-  "trustedformulae": [
-    "datadog-labs/pack/pup"
   ]
 }
