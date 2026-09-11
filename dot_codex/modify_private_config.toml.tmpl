@@ -19,6 +19,7 @@ out="$(printf '%s\n' "$current" | awk -v home="$home" '
 function managed_body(h) {
   if (h == "[projects.\"" home "\"]") return "trust_level = \"trusted\""
   if (h == "[mcp_servers.context7]") return "command = \"npx\"\nargs = [\"-y\", \"@upstash/context7-mcp\"]"
+  if (h == "[mcp_servers.playwright]") return "command = \"npx\"\nargs = [\"-y\", \"@playwright/mcp@latest\", \"--caps=devtools\", \"--device\", \"Desktop Chrome HiDPI\"]"
   if (h == "[plugins.\"github@openai-curated\"]") return "enabled = true"
   if (h == "[plugins.\"tracing@codex-observability-plugin\"]") return "enabled = true"
   if (h == "[features]") return "hooks = true\nterminal_resize_reflow = true\njs_repl = false\nmemories = true\nchronicle = false\nplugin_hooks = true"
@@ -46,7 +47,7 @@ BEGIN {
   seed_top["model_reasoning_effort"] = "\"low\""
   seed_top["service_tier"] = "\"default\""
   n_seed = split("model\nmodel_reasoning_effort\nservice_tier", seed_keys, "\n")
-  n = split("[projects.\"" home "\"]\n[mcp_servers.context7]\n[plugins.\"github@openai-curated\"]\n[plugins.\"tracing@codex-observability-plugin\"]\n[features]\n[tui]\n[permissions.workspace-git]\n[permissions.workspace-git.workspace_roots]\n[permissions.workspace-git.filesystem.\":workspace_roots\"]\n[permissions.workspace-git.network]", headers, "\n")
+  n = split("[projects.\"" home "\"]\n[mcp_servers.context7]\n[mcp_servers.playwright]\n[plugins.\"github@openai-curated\"]\n[plugins.\"tracing@codex-observability-plugin\"]\n[features]\n[tui]\n[permissions.workspace-git]\n[permissions.workspace-git.workspace_roots]\n[permissions.workspace-git.filesystem.\":workspace_roots\"]\n[permissions.workspace-git.network]", headers, "\n")
   in_top = 1
   skip = 0
 }
