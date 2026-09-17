@@ -1,7 +1,6 @@
 ---
 name: ai-review
 description: 同じ差分を Claude のサブエージェント、Codex、CodeRabbit に並列でレビューさせ、指摘を突合して pass / fix / block を出す。/ai-review [ベースブランチ] で起動する
-disable-model-invocation: true
 ---
 
 <!-- markdownlint-disable MD013 -->

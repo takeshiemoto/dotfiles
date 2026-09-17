@@ -7,3 +7,6 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 # mise (非インタラクティブシェルでも shims 経由でツールを使えるようにする)
 export PATH="$HOME/.local/share/mise/shims:$PATH"
+
+# 秘密の環境変数 (このリポジトリは public のため chezmoi 管理外に置く)
+[ -f "$HOME/.zsh.secrets" ] && . "$HOME/.zsh.secrets"
