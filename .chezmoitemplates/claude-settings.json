@@ -32,6 +32,7 @@
     "defaultMode": "auto"
   },
   "model": "claude-fable-5-1[1m]",
+  "language": "japanese",
   "skillOverrides": {
     "agent-install": "off",
     "code-review": "off",
@@ -90,7 +91,8 @@
     "langfuse-observability@langfuse-observability": true,
     "samba4@samba4-testcases": true,
     "slack@claude-plugins-official": true,
-    "mattpocock-skills@claude-plugins-official": true
+    "mattpocock-skills@claude-plugins-official": true,
+    "datadog@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "anthropic-agent-skills": {
@@ -138,6 +140,9 @@
       "effortLevel": "high"
     },
     "claude-sonnet-5": {
+      "effortLevel": "high"
+    },
+    "claude-opus-5": {
       "effortLevel": "high"
     }
   },
