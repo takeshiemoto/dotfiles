@@ -53,9 +53,6 @@ cask "wispr-flow"
 {{ if .install.font_google_sans_code -}}
 cask "font-google-sans-code"
 {{ end -}}
-{{ if .install.font_biz_udgothic -}}
-cask "font-biz-udgothic"
-{{ end -}}
 {{ if .install.font_line_seed_jp -}}
 cask "font-line-seed-jp"
 {{ end -}}

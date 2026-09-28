@@ -19,7 +19,7 @@ chezmoi の命名規約に従う。`dot_` は `~/.` に展開され、`private_`
 
 - `dot_zshrc`, `dot_zshenv`: zsh。abbr、autosuggestions、peco のヒストリ検索と ghq リポジトリジャンプ
 - `dot_gitconfig.tmpl`: git 設定。末尾で `~/.gitconfig.local` を include
-- `dot_config/wezterm/`: WezTerm。vague カラー、Google Sans Code と BIZ UDGothic のフォールバック
+- `dot_config/wezterm/`: WezTerm。vague カラー、JetBrains Mono（WezTerm 内蔵）と LINE Seed JP のフォールバック
 - `dot_config/nvim/`: Neovim (LazyVim)。vague カラースキーム
 - `dot_config/lazygit/`: lazygit
 - `dot_config/git/ignore`: グローバル gitignore
