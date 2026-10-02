@@ -52,6 +52,8 @@ Claude Code と Codex も他のツールと同じ dotfiles として扱う。ユ
 
 skills.sh で入れた外部スキルの実体は `~/.agents/skills` にあり、このリポジトリは `~/.claude/skills` 配下の symlink（`symlink_` ソース）だけを追跡する。
 
+自作スキルの実体は `dot_claude/skills/` に置き、Codex には `dot_codex/skills/symlink_<name>` で `~/.claude/skills/<name>` を指す symlink を置いて共有する。スキルを追加したら両方に足す。
+
 ## ツールが書き換える設定
 
 - Codex の `~/.codex/config.toml` は `modify_` スクリプトで管理する。管理キーは 2 段で、強制キー（default_permissions 等）は常に上書きし、初期値キー（model 等）は無いときだけ既定値を書く。旧 sandbox キー（sandbox_mode と `[sandbox_workspace_write]`）は permission profile と併用できないため削除する。Codex が実行時に追記・変更する設定はそのまま通す
