@@ -6,7 +6,7 @@
 <title>{{題名}}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=LINE+Seed+JP:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=LINE+Seed+JP:wght@400;700&family=Klee+One:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root { --bg: #fff; --fg: #111; --line: #999; }
   @media (prefers-color-scheme: dark) {
@@ -61,6 +61,7 @@
   figcaption { margin-bottom: 8px; font-weight: 700; }
   svg { display: block; width: 100%; height: auto; color: var(--fg); }
   svg text { font-family: "LINE Seed JP", sans-serif; fill: currentColor; }
+  svg.seq text { font-family: "Klee One", "LINE Seed JP", sans-serif; }
   .box { fill: none; stroke: currentColor; stroke-width: 1.5; }
   .label-bg { fill: var(--bg); }
 
@@ -83,6 +84,7 @@
   <ol>
     <li><a href="#conclusion">{{結論を言い切る 1 文}}</a></li>
     <li><a href="#cast">1. 出てくるもの</a></li>
+    <li><a href="#flow">2. ふだんの流れ</a></li>
     <!-- 以降、section の id と見出しを 1 対 1 で並べる -->
   </ol>
 </nav>
@@ -105,6 +107,23 @@
     <tr><th>名前</th><th>役割</th><th>実物</th></tr>
     <tr><td>{{名前}}</td><td>{{役割を 1 文で}}</td><td>{{現実の姿。データなら実際の値を 1 件}}</td></tr>
   </table>
+</section>
+
+<!-- ふだんの流れ: 左に番号付きの手順、右に sequence.py の出力をそのまま貼る -->
+<section id="flow">
+  <h2>2. ふだんの流れ</h2>
+  <div class="pair">
+    <div>
+      <ol>
+        <li>{{手順。やり取りされる実際の値を添える}}</li>
+      </ol>
+      <p>{{問題が起きるのは手順 N です}}</p>
+    </div>
+    <figure>
+      <figcaption>ふだんの流れ</figcaption>
+      {{sequence.py の出力}}
+    </figure>
+  </div>
 </section>
 
 <!-- 部品 1: 文章と図表を左右に並べる節。これを基本形にする -->
