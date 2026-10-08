@@ -33,15 +33,17 @@ LEVELS:
 
 ## 1. 対象を確定する
 
-- 引数にベースブランチがあれば、対象は `git merge-base HEAD <base>` からの差分。Codex のフラグは `--base <base>`、CodeRabbit のフラグは `--base <base>`。
-- 引数がなく `git status --porcelain` が空でなければ、対象は未コミットの変更（ステージ済み、未ステージ、未追跡）。Codex のフラグは `--uncommitted`、CodeRabbit のフラグは `--uncommitted --include-untracked --base <現在のブランチ>`。CodeRabbit はリモートのないリポジトリでベースブランチを判定できずに失敗するため、`--base` を必ず付ける。
+- 引数にベースブランチがあれば、対象は `git merge-base HEAD <base>` からの差分。Codex の対象文は `Review the changes on the current branch against the base branch <base>. The target diff is git diff <基準コミットの SHA>...HEAD.`、CodeRabbit のフラグは `--base <base>`。
+- 引数がなく `git status --porcelain` が空でなければ、対象は未コミットの変更（ステージ済み、未ステージ、未追跡）。Codex の対象文は `Review the current code changes (staged, unstaged, and untracked files).`、CodeRabbit のフラグは `--uncommitted --include-untracked --base <現在のブランチ>`。CodeRabbit はリモートのないリポジトリでベースブランチを判定できずに失敗するため、`--base` を必ず付ける。
 - 引数がなく作業ツリーがクリーンなら、レビュー対象なしと伝えて終了する。
+
+Codex にフラグではなく対象文を渡すのは、`codex review` が `--base`、`--uncommitted`、`--commit` とカスタムプロンプトを排他にしており、フラグを使うと GOAL と LEVELS を渡せないため。カスタムプロンプトには対象範囲の文言が注入されないので、対象文で範囲を自分で指定する。
 
 基準コミットは、ベースブランチがあれば `git merge-base HEAD <base>` の SHA、未コミットの変更が対象なら `HEAD` の SHA とする。
 
 対象の差分と未追跡ファイルの一覧を取得し、変更ファイル一覧と `git diff --numstat` の結果を手元に残す。
 
-完了条件: Codex と CodeRabbit のフラグ、差分を再現するコマンド、基準コミットの SHA が 1 つに決まっている。
+完了条件: Codex の対象文、CodeRabbit のフラグ、差分を再現するコマンド、基準コミットの SHA が 1 つに決まっている。
 
 ## 2. 秘密情報を確認する
 
@@ -57,8 +59,8 @@ LEVELS:
 
 同じ応答の中で次の 4 つを呼ぶ。手順 2 で外部送信を止めた場合は Claude と性能だけを呼ぶ。
 
-- Codex: Bash を `run_in_background: true` で `codex review <手順 1 のフラグ> "<GOAL と LEVELS>" 2>/dev/null` として起動する。GOAL と LEVELS は追加のレビュー指示として渡る。標準出力が最終レビューになる。
-- CodeRabbit: GOAL と LEVELS を scratchpad の `review-goal.md` に書き出し、Bash を `run_in_background: true` で `coderabbit review --agent <手順 1 のフラグ> -c <review-goal.md のパス> 2>/dev/null` として起動する。`--use-credits` は付けない。出力は 1 行 1 JSON で、`"type":"finding"` の行が指摘になる。行番号は `codegenInstructions` の `at line N` から読む。`"type":"error"` の行が出たら、そのレビューは失敗として扱い、残りで続行する。
+- Codex: 手順 1 の対象文、`Do not review anything outside that diff. Provide prioritized findings.`、GOAL、LEVELS をこの順で scratchpad の `codex-review-prompt.md` に書き出し、Bash を `run_in_background: true` で `codex review - < <codex-review-prompt.md のパス> 2>/dev/null` として起動する。`--base` や `--uncommitted` は付けない（付けるとプロンプトと併用できずエラーになる）。標準出力が最終レビューになる。
+- CodeRabbit: GOAL と LEVELS を scratchpad の `review-goal.md` に書き出し、Bash を `run_in_background: true` で `coderabbit review --agent <手順 1 の CodeRabbit のフラグ> -c <review-goal.md のパス> 2>/dev/null` として起動する。`--use-credits` は付けない。出力は 1 行 1 JSON で、`"type":"finding"` の行が指摘になる。行番号は `codegenInstructions` の `at line N` から読む。`"type":"error"` の行が出たら、そのレビューは失敗として扱い、残りで続行する。
 - Claude: Agent ツールで general-purpose のサブエージェントを起動する。プロンプトには GOAL、LEVELS、対象の差分を再現するコマンド、下記の出力形式だけを渡し、Codex や CodeRabbit の存在や結果には触れない。
 - 性能: Agent ツールで general-purpose のサブエージェントをもう 1 つ起動する。プロンプトには GOAL、LEVELS、対象の差分を再現するコマンド、基準コミットの SHA、scratchpad のパス、下記の性能サブエージェントへ渡す指示だけを渡し、ほかのレビューの存在や結果には触れない。
 
