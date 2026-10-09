@@ -3,7 +3,8 @@ name: pr
 description: >-
   現在のブランチを push し、リポジトリの PR テンプレート（.github/PULL_REQUEST_TEMPLATE.md 等）に
   厳格に従って本文を組み立て、`gh pr create --draft` で Pull Request を作るスキル。ベースブランチは
-  引数で必須指定する（例 `/pr develop`）。現在ブランチに既存 PR があれば新規作成せず本文を更新する。
+  引数で必須指定する（例 `/pr develop`）。`--dnm` を付けるとタイトル先頭に `[DO NOT MERGE]` を
+  足す。現在ブランチに既存 PR があれば新規作成せず本文を更新する。
   画面に見える変更を含む PR には、変更後（修正なら前後）の画面キャプチャを撮って本文に添付する。
   ユーザーが `/pr` で呼んだ時、または「PR 作って」「プルリク
   出して」「PR 作成して」のように今 PR を作りたい意図を明示した時に使う。確認は取らず自律実行するが、
@@ -15,7 +16,7 @@ description: >-
 
 # pr — テンプレート順守で PR を作る
 
-`/pr <base>` で push から PR 作成までを確認なしで自律実行する。最優先はリポジトリのテンプレート厳守。コミット生成は範囲外（`commit` スキルの責務）。未コミット変更があってもコミットしない・警告のみ。
+`/pr <base> [--dnm]` で push から PR 作成までを確認なしで自律実行する。最優先はリポジトリのテンプレート厳守。コミット生成は範囲外（`commit` スキルの責務）。未コミット変更があってもコミットしない・警告のみ。
 
 ## 停止条件（自律実行の例外）
 
@@ -30,7 +31,7 @@ description: >-
 
 ## 手順
 
-1. 前提チェック：git リポジトリ・`gh auth status`・ベース引数の3点。
+1. 前提チェック：git リポジトリ・`gh auth status`・ベース引数の3点。引数に `--dnm` があれば DO NOT MERGE 指定として以降の手順で扱う（依頼文の言い回しからは判定しない）。
 2. 差分確認：`git log <base>..HEAD` と `git diff <base>...HEAD`（3点表記）。未コミット変更があれば「PR に含まれない」と一言警告して続行。
 3. テンプレート探索：GitHub 標準配置を大文字小文字・拡張子（`.md`/`.txt`/無し）のゆれ込みで探し、1件ならそれを使う。
 
@@ -41,14 +42,14 @@ description: >-
    ```
 
 4. 本文生成：[references/body.md](references/body.md) を正として組み立てる。叙述の素材は手順2の log/diff のみ。組み立て後に「字数を削る」パスを1回通す。
-5. タイトル生成：[references/title.md](references/title.md) の規約探索・適用・字数削減・自己照合に従う。
+5. タイトル生成：[references/title.md](references/title.md) の規約探索・適用・字数削減・自己照合に従う。DO NOT MERGE 指定なら、照合を終えたタイトルの先頭に `[DO NOT MERGE]` と半角スペース1つを足す。
 6. UI キャプチャ：diff に画面へ見える変更が含まれる PR は、後述「UI キャプチャ」に従って撮影し、本文に貼る。含まれなければ何もしない。
 7. push：停止条件を全通過してから `git push -u origin HEAD`（中断する PR のブランチを公開しないため最後に置く）。
 8. PR 作成/更新：
-   - 既存 PR（`gh pr view --json number,url,state`）があれば `gh pr edit <number> --body-file <tmp>` で本文のみ全面再生成・置換。タイトルは触らない（手修正を潰さない）。手追記は保持されない旨を報告に1行添える。
+   - 既存 PR（`gh pr view --json number,url,state`）があれば `gh pr edit <number> --body-file <tmp>` で本文のみ全面再生成・置換。タイトルは触らない（手修正を潰さない）。手追記は保持されない旨を報告に1行添える。例外は DO NOT MERGE 指定で既存タイトルが `[DO NOT MERGE]` で始まっていないときだけで、現在のタイトルの先頭に接頭辞を足して `--title` も渡す（本体は変えない）。指定なしのときに接頭辞を外すことはしない。
    - なければ `gh pr create --base <base> --head <current> --draft --assignee takeshiemoto --title "<title>" --body-file <tmp>`。assignee は常に `takeshiemoto` 固定。本文は一時ファイル経由（エスケープ事故回避）。
    - 手順6でキャプチャを撮った場合は、どちらのコマンドにも `--attach '<絶対パス>#<説明>'` を画像の数だけ付ける。
-9. 報告：ベース・draft を述べ、URL は半角スペースを挟んで行末に置く（例 `PR を作成した（base: develop、draft）: <URL>`）。URL の直後に文字を続けない（ターミナルのリンク検出が壊れる）。キャプチャを添付した場合は枚数を、撮れなかった場合は理由と「作者が添付すること」を1行添える。
+9. 報告：ベース・draft を述べ、URL は半角スペースを挟んで行末に置く（例 `PR を作成した（base: develop、draft）: <URL>`）。URL の直後に文字を続けない（ターミナルのリンク検出が壊れる）。DO NOT MERGE 指定なら「DO NOT MERGE 付き」と添え、PR タイトル lint を検出していれば接頭辞で落ちうる旨を1行添える（停止条件にはしない）。キャプチャを添付した場合は枚数を、撮れなかった場合は理由と「作者が添付すること」を1行添える。
 
 ## UI キャプチャ
 
