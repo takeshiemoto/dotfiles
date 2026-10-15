@@ -30,7 +30,6 @@ bootstrap が自動化できない手順。上から順に済ませる。
 
    ```sh
    npx -y skills add mattpocock/skills -g --skill grill-me --skill grill-with-docs -y
-   npx -y skills add iKora128/stop-ai-slop-jp -g -y
    ```
 
 4. Git identity: init 時の回答から設定される。変える場合は `~/.gitconfig.local` に上書きを書くか、`~/.config/chezmoi/chezmoi.toml` の `[data]` を編集して再 apply する
