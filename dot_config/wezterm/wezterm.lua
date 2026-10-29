@@ -29,12 +29,13 @@ config.enable_tab_bar = true
 config.use_fancy_tab_bar = true
 config.tab_bar_at_bottom = false
 config.window_decorations = "RESIZE"
-config.window_background_opacity = 1.0
+config.window_background_opacity = 0.85
+config.macos_window_background_blur = 10
 config.colors = {
 	foreground = "#cdcdcd",
-	background = "#141415",
+	background = "#0a0a0b",
 	cursor_bg = "#cdcdcd",
-	cursor_fg = "#141415",
+	cursor_fg = "#0a0a0b",
 	cursor_border = "#cdcdcd",
 	selection_fg = "#cdcdcd",
 	selection_bg = "#252530",
@@ -43,14 +44,14 @@ config.colors = {
 	brights = { "#606079", "#e08398", "#99b782", "#f5cb96", "#8ba9c1", "#c9b1ca", "#bebeda", "#d7d7d7" },
 	tab_bar = {
 		active_tab = { bg_color = "#252530", fg_color = "#cdcdcd" },
-		inactive_tab = { bg_color = "#141415", fg_color = "#606079" },
+		inactive_tab = { bg_color = "#0a0a0b", fg_color = "#606079" },
 		inactive_tab_hover = { bg_color = "#252530", fg_color = "#cdcdcd" },
-		new_tab = { bg_color = "#141415", fg_color = "#6e94b2" },
+		new_tab = { bg_color = "#0a0a0b", fg_color = "#6e94b2" },
 		new_tab_hover = { bg_color = "#252530", fg_color = "#8ba9c1" },
 		inactive_tab_edge = "#252530",
 	},
 }
-config.window_frame = { active_titlebar_bg = "#141415", inactive_titlebar_bg = "#141415" }
+config.window_frame = { active_titlebar_bg = "#0a0a0b", inactive_titlebar_bg = "#0a0a0b" }
 config.scrollback_lines = 10000
 config.max_fps = 120
 config.quick_select_patterns = { "[\\w.\\-/]+:\\d+" }

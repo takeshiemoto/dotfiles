@@ -7,7 +7,7 @@ description: 同じ差分を Claude のサブエージェント、Codex、CodeRa
 
 # ai-review
 
-別ベンダーの 3 つのレビューと性能専任のレビューを互いの結果を見せずに走らせ、突合で見逃しと誤検知を減らす。このスキルはレビューだけを行い、コードは直さない。
+別ベンダーの 3 つのレビューと性能専任のレビュー、マイグレーションを含むときは DB 設計専任のレビューを、互いの結果を見せずに走らせ、突合で見逃しと誤検知を減らす。このスキルはレビューだけを行い、コードは直さない。
 
 ## 0. 共通のゴールと指摘レベル
 
@@ -43,7 +43,15 @@ Codex にフラグではなく対象文を渡すのは、`codex review` が `--b
 
 対象の差分と未追跡ファイルの一覧を取得し、変更ファイル一覧と `git diff --numstat` の結果を手元に残す。
 
-完了条件: Codex の対象文、CodeRabbit のフラグ、差分を再現するコマンド、基準コミットの SHA が 1 つに決まっている。
+変更ファイル一覧か未追跡ファイルの一覧に次のどれかに当たるパスがあれば、マイグレーションを含むとみなす。
+
+- パスに大文字小文字を区別せず `migration` か `migrate` を含む
+- `*.sql`、`*.prisma`、`schema.rb`、`Schemafile`、`*.schema`
+- パスに `alembic/versions/`、`liquibase`、`db/changelog/`、`ent/schema/` のどれかを含む
+- `git ls-files '*/migrations/__init__.py'` で見つかった Django アプリの `models.py` と `models/`
+- `git ls-files '*drizzle.config.*' '*atlas.hcl'` で見つかった設定の、`schema`（Drizzle）と `src`（Atlas）が指すファイル
+
+完了条件: Codex の対象文、CodeRabbit のフラグ、差分を再現するコマンド、基準コミットの SHA が 1 つに決まっていて、マイグレーション判定の条件それぞれに当否が付いている。
 
 ## 2. 秘密情報を確認する
 
@@ -57,12 +65,13 @@ Codex にフラグではなく対象文を渡すのは、`codex review` が `--b
 
 ## 3. レビューを並列で起動する
 
-同じ応答の中で次の 4 つを呼ぶ。手順 2 で外部送信を止めた場合は Claude と性能だけを呼ぶ。
+同じ応答の中で次の 4 つを呼び、手順 1 でマイグレーションを含むとみなした場合は DB 設計も呼ぶ。手順 2 で外部送信を止めた場合は Codex と CodeRabbit を外す。
 
 - Codex: 手順 1 の対象文、`Do not review anything outside that diff. Provide prioritized findings.`、GOAL、LEVELS をこの順で scratchpad の `codex-review-prompt.md` に書き出し、Bash を `run_in_background: true` で `codex review - < <codex-review-prompt.md のパス> 2>/dev/null` として起動する。`--base` や `--uncommitted` は付けない（付けるとプロンプトと併用できずエラーになる）。標準出力が最終レビューになる。
 - CodeRabbit: GOAL と LEVELS を scratchpad の `review-goal.md` に書き出し、Bash を `run_in_background: true` で `coderabbit review --agent <手順 1 の CodeRabbit のフラグ> -c <review-goal.md のパス> 2>/dev/null` として起動する。`--use-credits` は付けない。出力は 1 行 1 JSON で、`"type":"finding"` の行が指摘になる。行番号は `codegenInstructions` の `at line N` から読む。`"type":"error"` の行が出たら、そのレビューは失敗として扱い、残りで続行する。
 - Claude: Agent ツールで general-purpose のサブエージェントを起動する。プロンプトには GOAL、LEVELS、対象の差分を再現するコマンド、下記の出力形式だけを渡し、Codex や CodeRabbit の存在や結果には触れない。
 - 性能: Agent ツールで general-purpose のサブエージェントをもう 1 つ起動する。プロンプトには GOAL、LEVELS、対象の差分を再現するコマンド、基準コミットの SHA、scratchpad のパス、下記の性能サブエージェントへ渡す指示だけを渡し、ほかのレビューの存在や結果には触れない。
+- DB 設計: Agent ツールで general-purpose のサブエージェントをもう 1 つ起動する。プロンプトには GOAL、LEVELS、対象の差分を再現するコマンド、ベースブランチがあればその名前、このスキルのディレクトリにある `db-design.md` の絶対パスと、それを読んで従う指示だけを渡し、ほかのレビューの存在や結果には触れない。
 
 Claude のサブエージェントへ渡す指示:
 
@@ -94,6 +103,7 @@ Claude のサブエージェントへ渡す指示:
 - 性能サブエージェントの計測済みの指摘: 変更前後の値を添えて採用する。
 - 2 つ以上のレビューが一致した指摘: 採用する。レベルが食い違えば重い方を取る。
 - 1 つのレビューだけの指摘: 指摘された `path:行` と周辺コードを自分で読み、発生する入力と結果を確かめる。確かめられたら採用し、確かめられなければ却下して理由を 1 行で残す。出どころのレビュアーが不得意な領域であることは却下の理由にしない。却下できるのは、GOAL に照らしてプロダクトの品質を損なわないと確かめられたときだけ。
+- 1 つのレビューだけの指摘のうち、DB 設計の前提がなし以外のもの: コードで確かめられる部分と前提の根拠の `path:行` を上と同じ手順で確かめ、確かめられたら前提を添えて DB 設計のレベルのまま採用し、手順 6 の結論にもそのレベルで数える。前提が本番で成り立つかどうかは確かめなくてよい。
 
 完了条件: 全指摘が採用か却下のどちらかに分類され、却下には理由がある。
 
@@ -101,7 +111,7 @@ Claude のサブエージェントへ渡す指示:
 
 次の条件のどれかに当たれば、ユーザーに `/security-review` の実行を勧め、当たった条件を示す。`/security-review` は非対話で実行できないため、このスキルからは起動しない。
 
-- A 変更パス: `auth`、`payment`、`migration`、`middleware`、`Dockerfile`、`.github/workflows/`、`*.sql`、ロックファイル（`package-lock.json`、`pnpm-lock.yaml`、`yarn.lock`、`bun.lock`、`Gemfile.lock`、`poetry.lock`、`uv.lock`、`Cargo.lock`、`go.sum`）を含む
+- A 変更パス: 手順 1 でマイグレーションを含むとみなした、または `auth`、`payment`、`middleware`、`Dockerfile`、`.github/workflows/`、ロックファイル（`package-lock.json`、`pnpm-lock.yaml`、`yarn.lock`、`bun.lock`、`Gemfile.lock`、`poetry.lock`、`uv.lock`、`Cargo.lock`、`go.sum`）を含む
 - B 追加行の内容: 暗号処理、SQL 文字列の連結や埋め込み、`innerHTML`、`dangerouslySetInnerHTML`、デシリアライズ（`pickle.loads`、`yaml.load`、`unserialize` など）、`eval`、`exec`、`child_process`、`subprocess` を含む
 - C 規模: 変更ファイルが 20 を超える、または追加行が 1,000 を超える
 - D 採用した指摘: injection、XSS、SSRF、認可、秘密情報のどれかに分類されるものがある
@@ -120,9 +130,11 @@ Claude のサブエージェントへ渡す指示:
 報告には次を含める。
 
 - 結論と対象（ベースブランチか未コミットか）
-- 採用した指摘: レベル、`path:行`、要約、出どころ（指摘したレビューの名前をすべて）。重大な欠陥、品質上の問題、改善提案の順に並べる
+- 採用した指摘: レベル、`path:行`、要約、出どころ（指摘したレビューの名前をすべて）、DB 設計が添えた前提。重大な欠陥、品質上の問題、改善提案の順に並べる
 - 性能の指摘には、経路、変更前後の値、計測済みか未計測かを添える
 - 性能サブエージェントが列挙したエントリポイントの一覧と判定
+- 性能のエントリポイントの判定と DB 設計のロックの判定のうち、手順 4 で判定そのものが誤りと確かめて却下した指摘に対応するものは、却下と書き換える
+- DB 設計を呼んだ場合、特定した DB エンジンとバージョンと、それが本番のものか開発環境のものか、DDL とデータ操作ごとのロックの判定
 - 却下した指摘と理由
 - 当たった昇格条件と `/security-review` の推奨。当たらなければ省く
 - 手順 2 で Codex と CodeRabbit を外した場合、または手順 3 で失敗したレビューがある場合はその旨
