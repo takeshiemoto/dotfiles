@@ -18,13 +18,11 @@ wezterm.on("format-tab-title", function(tab)
 	local dir = cwd and basename(cwd.file_path or "") or ""
 	return " " .. dir .. " " .. proc .. " "
 end)
-config.font = wezterm.font_with_fallback({
-	"JetBrains Mono",
-	"LINE Seed JP",
-})
+config.font = wezterm.font_with_fallback({ "SF Mono", "Hiragino Sans" })
 config.harfbuzz_features = { "calt=0", "clig=0", "liga=0" }
 config.font_size = 12.0
-config.line_height = 1.1
+config.freetype_load_target = "Light"
+config.freetype_load_flags = "NO_HINTING"
 config.enable_tab_bar = true
 config.use_fancy_tab_bar = true
 config.tab_bar_at_bottom = false
