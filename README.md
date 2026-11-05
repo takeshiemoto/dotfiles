@@ -33,14 +33,13 @@ bootstrap が自動化できない手順。上から順に済ませる。
    ```
 
 4. Git identity: init 時の回答から設定される。変える場合は `~/.gitconfig.local` に上書きを書くか、`~/.config/chezmoi/chezmoi.toml` の `[data]` を編集して再 apply する
-5. Langfuse（任意）: セルフホストを起動し、そのプロジェクトの public key を `~/.claude/settings.json` の `pluginConfigs` に設定する。使わないなら `langfuse-observability` プラグインを無効にする
-6. ghq 配下で source を管理する場合: `ghq get takeshiemoto/dotfiles` の後、`~/.config/chezmoi/chezmoi.toml` の最上位（`[data]` より上）に次を書き、`chezmoi source-path` で確認する
+5. ghq 配下で source を管理する場合: `ghq get takeshiemoto/dotfiles` の後、`~/.config/chezmoi/chezmoi.toml` の最上位（`[data]` より上）に次を書き、`chezmoi source-path` で確認する
 
    ```toml
    sourceDir = "/Users/<you>/ghq/github.com/takeshiemoto/dotfiles"
    ```
 
-7. 再ログインする（キーボード設定の反映）
+6. 再ログインする（キーボード設定の反映）
 
 ## 日常の操作
 

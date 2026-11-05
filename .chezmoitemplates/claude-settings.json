@@ -32,8 +32,7 @@
     ],
     "defaultMode": "auto"
   },
-  "model": "claude-fable-5-1[1m]",
-  "language": "japanese",
+  "model": "fable",
   "skillOverrides": {
     "agent-install": "off",
     "code-review": "off",
@@ -89,7 +88,6 @@
     "example-skills@anthropic-agent-skills": true,
     "figma@claude-plugins-official": true,
     "frontend-design@claude-plugins-official": true,
-    "langfuse-observability@langfuse-observability": true,
     "samba4@samba4-testcases": true,
     "slack@claude-plugins-official": true,
     "mattpocock-skills@claude-plugins-official": true,
@@ -114,12 +112,6 @@
         "repo": "tomasz-tomczyk/crit"
       }
     },
-    "langfuse-observability": {
-      "source": {
-        "source": "github",
-        "repo": "langfuse/Claude-Observability-Plugin"
-      }
-    },
     "openai-codex": {
       "source": {
         "source": "github",
@@ -133,6 +125,7 @@
       }
     }
   },
+  "language": "japanese",
   "modelSettings": {
     "claude-fable-5": {
       "effortLevel": "high"
@@ -147,19 +140,17 @@
       "effortLevel": "high"
     },
     "claude-opus-5-5": {
-      "effortLevel": "medium"
+      "effortLevel": "high"
+    },
+    "claude-sonnet-5-5": {
+      "effortLevel": "high"
     }
   },
-  "pluginConfigs": {
-    "langfuse-observability@langfuse-observability": {
-      "options": {
-        "LANGFUSE_BASE_URL": "http://localhost:3000",
-        "LANGFUSE_PUBLIC_KEY": "pk-lf-a98af76d-8820-4e54-afcd-6d4c245ba2ce"
-      }
-    }
-  },
+  "pluginConfigs": {},
   "tui": "fullscreen",
   "skipWorkflowUsageWarning": true,
   "theme": "auto",
-  "agentPushNotifEnabled": true
+  "switchModelsOnFlag": true,
+  "agentPushNotifEnabled": true,
+  "promptSuggestionEnabled": false
 }
