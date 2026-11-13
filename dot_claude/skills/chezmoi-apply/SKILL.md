@@ -40,7 +40,7 @@ chezmoi で管理された設定を変更し、ライブのファイル（`$HOME
 
 ```bash
 chezmoi source-path ~/.config/wezterm/wezterm.lua
-```text
+```
 
 逆に、リポジトリ内のソースがどのライブパスに対応するか確認したいとき：
 
@@ -52,7 +52,7 @@ chezmoi target-path dot_config/wezterm/wezterm.lua
 
 ```bash
 chezmoi managed | grep -i wezterm
-```text
+```
 
 ### 2. ソースファイルを編集する
 
@@ -78,7 +78,7 @@ chezmoi diff                    # 全体
 ```bash
 chezmoi apply <target-path>     # 対象だけ反映（推奨）
 chezmoi apply                   # 全体反映
-```text
+```
 
 範囲を絞れるなら個別ターゲットを指定し、無関係なファイルへの副作用を避ける。
 
@@ -106,4 +106,4 @@ chezmoi managed                   # 管理対象一覧
 chezmoi diff [target]             # 差分プレビュー
 chezmoi apply [target]            # 反映
 chezmoi edit <live-path>          # ソースを開く（chezmoi 経由）
-```text
+```

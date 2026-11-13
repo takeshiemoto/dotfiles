@@ -5,47 +5,122 @@
       {
         "id": "1",
         "type": "model",
-        "color": "brightBlue"
+        "color": "hex:E6E9ED",
+        "bold": true,
+        "rawValue": true
       },
       {
-        "id": "ea443e81-78dd-454d-82f1-7ac85be2bc49",
-        "type": "separator"
+        "id": "s1",
+        "type": "separator",
+        "character": "  ╱  ",
+        "color": "hex:858C96"
       },
       {
-        "id": "19d72d09-071c-4647-90f7-32870272a518",
-        "type": "thinking-effort"
+        "id": "2",
+        "type": "thinking-effort",
+        "color": "hex:B8BEC6",
+        "rawValue": true
       },
       {
-        "id": "d7b3b47b-3bd5-4e61-b8e7-716ec84bcd9c",
-        "type": "separator"
+        "id": "s2",
+        "type": "separator",
+        "character": "  ╱  ",
+        "color": "hex:858C96"
       },
       {
-        "id": "1e6e2282-1536-481e-a38d-09af3b712054",
-        "type": "context-percentage-usable"
+        "id": "l3",
+        "type": "custom-text",
+        "customText": "CTX ",
+        "color": "hex:9DA4AE",
+        "merge": true
       },
       {
-        "id": "5cf09a44-8166-4c2d-8a24-21ec6f42c89b",
-        "type": "separator"
+        "id": "3",
+        "type": "context-percentage-usable",
+        "color": "hex:D0D5DB",
+        "bold": true,
+        "rawValue": true
       },
       {
-        "id": "f20631b2-bb84-4d8e-ba28-90dd2db9cca4",
+        "id": "s3",
+        "type": "separator",
+        "character": "  ╱  ",
+        "color": "hex:858C96"
+      },
+      {
+        "id": "l6",
+        "type": "custom-text",
+        "customText": "5H ",
+        "color": "hex:9DA4AE",
+        "merge": true
+      },
+      {
+        "id": "6",
+        "type": "session-usage",
+        "color": "hex:D0D5DB",
+        "bold": true,
+        "rawValue": true
+      },
+      {
+        "id": "g1",
+        "type": "separator",
+        "character": "   "
+      },
+      {
+        "id": "l4",
+        "type": "custom-text",
+        "customText": "WK ",
+        "color": "hex:9DA4AE",
+        "merge": true
+      },
+      {
+        "id": "4",
         "type": "weekly-usage",
-        "color": "brightGreen"
+        "color": "hex:D0D5DB",
+        "bold": true,
+        "rawValue": true
       },
       {
-        "id": "af9d43a1-2395-41ce-a2b4-d0e1d51d45ba",
-        "type": "separator"
+        "id": "g2",
+        "type": "separator",
+        "character": "   "
       },
       {
-        "id": "147e6ad6-720c-40e0-a60b-7c5c6cab771f",
+        "id": "l7",
+        "type": "custom-text",
+        "customText": "FABLE ",
+        "color": "hex:9DA4AE",
+        "merge": true
+      },
+      {
+        "id": "7",
+        "type": "fable-weekly-usage",
+        "color": "hex:D0D5DB",
+        "bold": true,
+        "rawValue": true
+      },
+      {
+        "id": "s4",
+        "type": "separator",
+        "character": "  ╱  ",
+        "color": "hex:858C96"
+      },
+      {
+        "id": "5",
         "type": "git-branch",
-        "color": "brightYellow"
+        "color": "hex:B8BEC6",
+        "rawValue": true
       }
     ]
   ],
   "flexMode": "full-minus-40",
   "compactThreshold": 60,
-  "colorLevel": 2,
+  "colorLevel": 3,
+  "numberFormat": {
+    "percent": {
+      "decimals": 0
+    }
+  },
   "inheritSeparatorColors": false,
   "globalBold": false,
   "gitCacheTtlSeconds": 5,
